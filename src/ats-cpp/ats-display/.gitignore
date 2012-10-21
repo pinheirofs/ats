@@ -1,0 +1,6 @@
+/ats-display
+/debug
+/release
+/Makefile
+/Makefile.Debug
+/Makefile.Release
