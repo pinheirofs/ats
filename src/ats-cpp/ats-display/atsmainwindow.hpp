@@ -1,6 +1,8 @@
 #ifndef ATSMAINWINDOW_HPP_
 #define ATSMAINWINDOW_HPP_
 
+#include <qaction.h>
+#include <qevent.h>
 #include <qmainwindow.h>
 
 #include "applicationcontroller.hpp"
@@ -20,11 +22,18 @@ class AtsMainWindow: public QMainWindow, public util::Observer {
         virtual ~AtsMainWindow();
         virtual void notify();
 
+        QAction *getExitAction();
+
+    protected:
+        void closeEvent(QCloseEvent * event);
+
     private:
         ApplicationController *controller;
 
+        QAction *exitAction;
+
         void config();
-        void createLayout();
+        void createMenus();
 };
 
 } /* namespace display */

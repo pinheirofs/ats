@@ -12,5 +12,9 @@ ApplicationController::~ApplicationController() {
     // TODO Auto-generated destructor stub
 }
 
+bool ApplicationController::isRunningSimulation() {
+    return true;
+}
+
 } /* namespace display */
 } /* namespace ats */

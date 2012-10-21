@@ -28,6 +28,7 @@ void GuiFactory::showAtsMainWindow(Application *application) {
 
     AtsMainWindow *window = new AtsMainWindow(controller);
 
+    connect(window->getExitAction(), SIGNAL(triggered()), window, SLOT(close()));
 
     window->show();
 }

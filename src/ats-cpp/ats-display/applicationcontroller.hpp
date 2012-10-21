@@ -19,6 +19,7 @@ class ApplicationController: public QObject, public Observable {
         ApplicationController(Application *Application);
         virtual ~ApplicationController();
 
+        bool isRunningSimulation();
     private slots:
 
     private:
