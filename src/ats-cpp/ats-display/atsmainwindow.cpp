@@ -6,7 +6,8 @@
 namespace ats {
 namespace display {
 
-AtsMainWindow::AtsMainWindow(ApplicationController *controller) : controller(controller) {
+AtsMainWindow::AtsMainWindow(ApplicationController *controller)
+        : controller(controller) {
     config();
     createMenus();
 }
@@ -22,8 +23,9 @@ void AtsMainWindow::config() {
 void AtsMainWindow::createMenus() {
     QMenuBar *menuBarInstance = menuBar();
 
-//    QMenu *simulationMenu = menuBarInstance->addMenu("&Simulation");
-
+    QMenu *simulationMenu = menuBarInstance->addMenu("&Air Traffic");
+    airTraficManagementAction = new QAction(tr("&Management"), this);
+    simulationMenu->addAction(airTraficManagementAction);
 
     QMenu *systemMenu = menuBarInstance->addMenu("S&ystem");
     exitAction = new QAction(tr("&Exit"), this);
@@ -31,18 +33,17 @@ void AtsMainWindow::createMenus() {
 
 }
 
+/* SLOTs methods */
+
 void AtsMainWindow::closeEvent(QCloseEvent * event) {
     if (controller->isRunningSimulation()) {
-        QMessageBox message(this);
-        message.setWindowTitle(tr("Warning"));
-        message.setText(tr("The simulation is running, do you want finsh it?"));
-        message.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        message.setDefaultButton(QMessageBox::Yes);
+        int option = QMessageBox::question(this, tr("Warning"), tr("The simulation is running, do you want finsh it?"),
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 
-        int option = message.exec();
         if (option == QMessageBox::Yes) {
             event->accept();
-        } else {
+        }
+        else {
             event->ignore();
         }
     }
@@ -55,8 +56,14 @@ void AtsMainWindow::notify() {
 
 }
 
+/* getter/ssetter methods */
+
 QAction *AtsMainWindow::getExitAction() {
     return exitAction;
+}
+
+QAction *AtsMainWindow::getAirTrafficManagementAction() {
+    return airTraficManagementAction;
 }
 
 } /* namespace display */

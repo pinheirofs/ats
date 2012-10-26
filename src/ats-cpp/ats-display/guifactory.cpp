@@ -1,14 +1,14 @@
 #include "guifactory.hpp"
 #include "applicationcontroller.hpp"
 #include "atsmainwindow.hpp"
+#include "airtrafficmanagementcontroller.hpp"
+#include "airtrafficmanagementdialog.hpp"
 
 using namespace ats::display;
 
 GuiFactory *GuiFactory::INSTANCE = 0;
 
-GuiFactory::GuiFactory() {
-    // TODO Auto-generated constructor stub
-
+GuiFactory::GuiFactory() : mainWindow(0) {
 }
 
 GuiFactory::~GuiFactory() {
@@ -23,12 +23,21 @@ GuiFactory *GuiFactory::getInstance() {
     return GuiFactory::INSTANCE;
 }
 
-void GuiFactory::showAtsMainWindow(Application *application) {
-    ApplicationController *controller = new ApplicationController(application);
+void GuiFactory::showAtsMainWindow() {
+    ApplicationController *controller = new ApplicationController(&application);
 
-    AtsMainWindow *window = new AtsMainWindow(controller);
+    mainWindow = new AtsMainWindow(controller);
 
-    connect(window->getExitAction(), SIGNAL(triggered()), window, SLOT(close()));
+    connect(mainWindow->getExitAction(), SIGNAL(triggered()), mainWindow, SLOT(close()));
+    connect(mainWindow->getAirTrafficManagementAction(), SIGNAL(triggered()), this, SLOT(showAirTrafficManagementWindow()));
 
-    window->show();
+    mainWindow->show();
+}
+
+void GuiFactory::showAirTrafficManagementWindow() {
+    AirTrafficManagementController *controller = new AirTrafficManagementController(&application);
+
+    AirTrafficManagementDialog *dialog = new AirTrafficManagementDialog(mainWindow, controller);
+
+    dialog->show();
 }

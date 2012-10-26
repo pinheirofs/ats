@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     ats::display::GuiFactory *factory = ats::display::GuiFactory::getInstance();
-    factory->showAtsMainWindow(0);
+    factory->showAtsMainWindow();
 
     return a.exec();
 }

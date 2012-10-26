@@ -23,14 +23,18 @@ class AtsMainWindow: public QMainWindow, public util::Observer {
         virtual void notify();
 
         QAction *getExitAction();
+        QAction *getAirTrafficManagementAction();
 
     protected:
         void closeEvent(QCloseEvent * event);
+
+    private slots:
 
     private:
         ApplicationController *controller;
 
         QAction *exitAction;
+        QAction *airTraficManagementAction;
 
         void config();
         void createMenus();

@@ -3,7 +3,7 @@
 namespace ats {
 namespace display {
 
-Application::Application(Application *application) : application(application) {
+Application::Application() {
     // TODO Auto-generated constructor stub
 
 }

@@ -11,11 +11,8 @@ namespace display {
  */
 class Application {
     public:
-        Application(Application *application);
+        Application();
         virtual ~Application();
-
-    private:
-        Application *application;
 };
 
 } /* namespace display */

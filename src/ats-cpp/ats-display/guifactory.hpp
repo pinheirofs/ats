@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "application.hpp"
+#include "atsmainwindow.hpp"
 
 namespace ats {
 namespace display {
@@ -15,9 +16,16 @@ class GuiFactory: public QObject {
         virtual ~GuiFactory();
         static GuiFactory *getInstance();
 
-        void showAtsMainWindow(Application *application);
+        void showAtsMainWindow();
+
+    private slots:
+        void showAirTrafficManagementWindow();
+
     private:
         static GuiFactory *INSTANCE;
+
+        Application application;
+        AtsMainWindow *mainWindow;
 
         GuiFactory();
 };

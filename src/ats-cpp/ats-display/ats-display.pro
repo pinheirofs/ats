@@ -2,13 +2,17 @@ TEMPLATE = app
 TARGET = ats-display
 QT += core \
     gui
-HEADERS += atsmainwindow.hpp \
+HEADERS += airtrafficmanagementdialog.hpp \
+    airtrafficmanagementcontroller.hpp \
+    atsmainwindow.hpp \
     applicationcontroller.hpp \
     application.hpp \
     observer.hpp \
     observable.hpp \
     guifactory.hpp
-SOURCES += observer.cpp \
+SOURCES += airtrafficmanagementdialog.cpp \
+    airtrafficmanagementcontroller.cpp \
+    observer.cpp \
     atsmainwindow.cpp \
     applicationcontroller.cpp \
     application.cpp \
