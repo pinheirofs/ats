@@ -1,15 +1,25 @@
-#include "application.hpp"
+#include "application.h"
+
+using std::vector;
+using ats::enviroment::Traffic;
 
 namespace ats {
 namespace display {
 
 Application::Application() {
-    // TODO Auto-generated constructor stub
-
+    // sem implemetacao
 }
 
 Application::~Application() {
-    // TODO Auto-generated destructor stub
+    // sem implemetacao
+}
+
+vector<Traffic> Application::getAllTraffics() const {
+    return traffics;
+}
+
+void Application::addTraffic(const ats::enviroment::Traffic &newTraffic) {
+    traffics.push_back(newTraffic);
 }
 
 } /* namespace display */

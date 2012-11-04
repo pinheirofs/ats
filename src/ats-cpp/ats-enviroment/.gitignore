@@ -1,0 +1,9 @@
+/debug
+/release
+/libats-enviroment.so
+/libats-enviroment.so.1
+/libats-enviroment.so.1.0
+/libats-enviroment.so.1.0.0
+/Makefile
+/Makefile.Debug
+/Makefile.Release

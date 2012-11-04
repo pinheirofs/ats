@@ -1,149 +1,163 @@
+#include <limits>
+#include <string>
+#include <vector>
+
 #include <qboxlayout.h>
-#include <qcombobox.h>
 #include <qgridlayout.h>
-#include <qgroupbox.h>
+#include <qheaderview.h>
 #include <qheaderview.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qsizepolicy.h>
-#include <string>
-#include <vector>
 
-#include "airtrafficmanagementdialog.hpp"
-#include "airtrafficmanagementcontroller.hpp"
+#include "airtrafficmanagementdialog.h"
+#include "airtrafficmanagementcontroller.h"
 
 namespace ats {
 namespace display {
 
 using namespace std;
 
-AirTrafficManagementDialog::AirTrafficManagementDialog(QWidget *parent, AirTrafficManagementController *controller)
-        : QDialog(parent), controller(controller), detailGroupBox(0), identificationLineText(0) {
+AirTrafficManagementDialog::AirTrafficManagementDialog(QWidget *parent)
+        : QDialog(parent), nameLineEdit(0), routePointTable(0) {
     config();
-    createLayout();
-
-    loadTrafficComboBox();
+    buildLayout();
 }
 
-void AirTrafficManagementDialog::addRoutePoint() {
-    routeTable->insertRow(0);
-}
+void AirTrafficManagementDialog::buildLayout() {
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mainLayout->addLayout(createTrafficDetailLayout());
+    mainLayout->addLayout(createButtonsLayout());
 
-void AirTrafficManagementDialog::removeRoutePoint() {
-    routeTable->removeRow(0);
-}
-
-void AirTrafficManagementDialog::loadTrafficComboBox() {
-    trafficComboBox->addItem(tr("New Traffic"));
-
-    vector<string> *trafficIds = controller->getTrafficIds();
-
-    vector<string>::iterator iterator = trafficIds->begin();
-    while (iterator != trafficIds->end()) {
-        string trafficId = *iterator;
-        trafficComboBox->addItem(QString(trafficId.c_str()));
-    }
-
-    delete trafficIds;
-}
-
-void AirTrafficManagementDialog::config() {
-    setWindowTitle(tr("Air Traffic Management"));
-    setMinimumSize(400, 400);
-}
-
-void AirTrafficManagementDialog::createLayout() {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     setLayout(mainLayout);
+}
+QLayout *AirTrafficManagementDialog::createButtonsLayout() {
+    QHBoxLayout *layout = new QHBoxLayout();
+    layout->setAlignment(Qt::AlignRight);
 
-    createSelectTrafficGroupBox();
-    createTrafficDetailGroupBox();
+    QPushButton *saveButton = new QPushButton(tr("Save"));
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveButtonCliecked()));
+    layout->addWidget(saveButton);
 
-    createButtons();
+    return layout;
 }
 
-void AirTrafficManagementDialog::createButtons() {
-    QFrame *frame = new QFrame();
-
-    QHBoxLayout *hboxLayout = new QHBoxLayout(this);
-    hboxLayout->addStretch();
-    frame->setLayout(hboxLayout);
-
-    saveButton = new QPushButton(tr("Save"));
-    hboxLayout->addWidget(saveButton);
-
-    QLayout *mainLayout = layout();
-    mainLayout->addWidget(frame);
+void AirTrafficManagementDialog::saveButtonCliecked() {
+    saveTraffic();
 }
 
-void AirTrafficManagementDialog::createTrafficDetailGroupBox() {
-    QGridLayout* gridlayout = new QGridLayout();
+QLayout *AirTrafficManagementDialog::createTrafficDetailLayout() {
+    QVBoxLayout *baseLayout = new QVBoxLayout();
 
-    detailGroupBox = new QGroupBox(this);
-    detailGroupBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    detailGroupBox->setLayout(gridlayout);
+    QHBoxLayout *nameLayout = new QHBoxLayout();
+    baseLayout->addLayout(nameLayout);
 
-    QLabel *identificationLabel = new QLabel(tr("Identification"));
-    gridlayout->addWidget(identificationLabel, 0, 0);
+    QLabel *nameLabel = new QLabel(tr("Name"));
+    nameLayout->addWidget(nameLabel);
 
-    identificationLineText = new QLineEdit();
-    gridlayout->addWidget(identificationLineText, 0, 1, 1, 2);
+    nameLineEdit = new QLineEdit();
+    nameLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    connect(nameLineEdit, SIGNAL(textEdited(const QString &)), this, SLOT(nameTextEdited(const QString &)));
+    nameLayout->addWidget(nameLineEdit);
 
-    QStringList columnsName;
-    columnsName.append(tr("X"));
-    columnsName.append(tr("Y"));
-    columnsName.append(tr("height"));
-    columnsName.append(tr("speed"));
+    QStringList columnNames;
+    columnNames.append(trUtf8("Latitude (°)"));
+    columnNames.append(trUtf8("Longitude (°)"));
+    columnNames.append(tr("Speed (nm)"));
+    columnNames.append(tr("Height (ft)"));
 
     QHeaderView *headerView = new QHeaderView(Qt::Horizontal);
     headerView->setResizeMode(QHeaderView::Stretch);
 
-    routeTable = new QTableWidget(this);
-    routeTable->setColumnCount(4);
-    routeTable->setRowCount(2);
-    routeTable->setHorizontalHeaderLabels(columnsName);
-    routeTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    routeTable->setHorizontalHeader(headerView);
-    gridlayout->addWidget(routeTable, 1, 0, 1, 3);
+    routePointTable = new QTableWidget();
+    routePointTable->setColumnCount(4);
+    routePointTable->setHorizontalHeaderLabels(columnNames);
+    routePointTable->setHorizontalHeader(headerView);
+    routePointTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    connect(routePointTable, SIGNAL(cellChanged(int, int)), this, SLOT(routePointTableCellChanged(int, int)));
+    baseLayout->addWidget(routePointTable);
 
-    addRoutePointButton = new QPushButton(tr("+"));
-    connect(addRoutePointButton, SIGNAL(pressed()), this, SLOT(addRoutePoint()));
-    gridlayout->addWidget(addRoutePointButton, 2, 1);
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    baseLayout->addLayout(buttonLayout);
+    buttonLayout->setAlignment(Qt::AlignRight);
 
-    removeRoutePointButton = new QPushButton(tr("-"));
-    connect(removeRoutePointButton, SIGNAL(pressed()), this, SLOT(removeRoutePoint()));
-    gridlayout->addWidget(removeRoutePointButton, 2, 2);
+    QPushButton *removeRoutePointButton = new QPushButton(tr("-"));
+    connect(removeRoutePointButton, SIGNAL(clicked()), this, SLOT(removeRoutePointButtonClicked()));
+    buttonLayout->addWidget(removeRoutePointButton);
 
-    QLayout
-    *mainLayout = layout();
-    mainLayout->addWidget(detailGroupBox);
+    QPushButton *addRoutePointButton = new QPushButton(tr("+"));
+    connect(addRoutePointButton, SIGNAL(clicked()), this, SLOT(addRoutePointButtonClicked()));
+    buttonLayout->addWidget(addRoutePointButton);
+
+    return baseLayout;
 }
 
-void AirTrafficManagementDialog::createSelectTrafficGroupBox() {
-    QGridLayout* gridLayout = new QGridLayout();
-
-    QGroupBox* groupBox = new QGroupBox(tr("Select Traffic"), this);
-    groupBox->setLayout(gridLayout);
-
-    QLabel* selectionLabel = new QLabel(tr("Select"));
-    gridLayout->addWidget(selectionLabel, 0, 0);
-
-    trafficComboBox = new QComboBox();
-    trafficComboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    gridLayout->addWidget(trafficComboBox, 0, 1, 1, 2);
-    connect(trafficComboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(updateDetail(QString)));
-
-    QLayout *mainLayout = layout();
-    mainLayout->addWidget(groupBox);
+void AirTrafficManagementDialog::addRoutePointButtonClicked() {
+    int index = routePointTable->rowCount();
+    routePointTable->insertRow(index);
+    addRoutePoint(index);
 }
 
-void AirTrafficManagementDialog::updateDetail(QString selectedId) {
-    detailGroupBox->setTitle(tr("Traffic - ") + selectedId);
+void AirTrafficManagementDialog::removeRoutePointButtonClicked() {
+    int index = routePointTable->rowCount();
+    routePointTable->removeRow(index);
+    removeRoutePoint(index);
+}
+
+void AirTrafficManagementDialog::routePointTableCellChanged(int row, int column) {
+    switch (column) {
+        case 0:
+            setTrafficLatitude(row, getLatitude(row));
+            break;
+        case 1:
+            setTrafficLongitude(row, getLongitude(row));
+            break;
+        case 2:
+            setTrafficSpeed(row, getSpeed(row));
+            break;
+        case 3:
+            setTrafficHeight(row, getHeight(row));
+            break;
+    }
+}
+
+double AirTrafficManagementDialog::getHeight(int row) const {
+    return getDoubleValueFromTable(row, 3);
+}
+
+double AirTrafficManagementDialog::getSpeed(int row) const {
+    return getDoubleValueFromTable(row, 2);
+}
+
+double AirTrafficManagementDialog::getLongitude(int row) const {
+    return getDoubleValueFromTable(row, 1);
+}
+
+double AirTrafficManagementDialog::getLatitude(int row) const {
+    return getDoubleValueFromTable(row, 0);
+}
+
+double AirTrafficManagementDialog::getDoubleValueFromTable(int row, int column) const {
+    QTableWidgetItem *item = routePointTable->item(row, column);
+    QString text = item->text();
+    if (text.isEmpty()) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    return text.toDouble();
+}
+
+void AirTrafficManagementDialog::nameTextEdited(const QString &name) {
+    setTrafficName(name);
+}
+
+void AirTrafficManagementDialog::config() {
+    setWindowTitle(tr("Traffic Management"));
+    setMinimumSize(600, 400);
 }
 
 AirTrafficManagementDialog::~AirTrafficManagementDialog() {
-    delete controller;
+// sem implemetacao.
 }
 
 } /* namespace display */

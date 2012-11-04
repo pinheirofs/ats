@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = ats-display
-HEADERS =
-SOURCES =
+SUBDIRS = ats-enviroment \
+    ats-display
+
+ats-display.depends = ats-enviroment

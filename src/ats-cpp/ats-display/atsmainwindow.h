@@ -1,12 +1,11 @@
-#ifndef ATSMAINWINDOW_HPP_
-#define ATSMAINWINDOW_HPP_
+#ifndef ATSMAINWINDOW_H_
+#define ATSMAINWINDOW_H_
 
 #include <qaction.h>
 #include <qevent.h>
 #include <qmainwindow.h>
 
-#include "applicationcontroller.hpp"
-#include "observer.hpp"
+#include "applicationcontroller.h"
 
 namespace ats {
 namespace display {
@@ -14,13 +13,12 @@ namespace display {
 /*
  *
  */
-class AtsMainWindow: public QMainWindow, public util::Observer {
+class AtsMainWindow: public QMainWindow {
     Q_OBJECT
 
     public:
         AtsMainWindow(ApplicationController *controller);
         virtual ~AtsMainWindow();
-        virtual void notify();
 
         QAction *getExitAction();
         QAction *getAirTrafficManagementAction();
@@ -42,4 +40,4 @@ class AtsMainWindow: public QMainWindow, public util::Observer {
 
 } /* namespace display */
 } /* namespace ats */
-#endif /* ATSMAINWINDOW_HPP_ */
+#endif /* ATSMAINWINDOW_H_ */

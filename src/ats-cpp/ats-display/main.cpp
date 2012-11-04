@@ -1,7 +1,7 @@
 #include <QtCore>
 #include <QApplication>
 
-#include "guifactory.hpp"
+#include "guifactory.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

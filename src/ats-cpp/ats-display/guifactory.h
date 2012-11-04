@@ -1,10 +1,10 @@
-#ifndef GUIFACTORY_HPP_
-#define GUIFACTORY_HPP_
+#ifndef GUIFACTORY_H_
+#define GUIFACTORY_H_
 
 #include <QObject>
 
-#include "application.hpp"
-#include "atsmainwindow.hpp"
+#include "application.h"
+#include "atsmainwindow.h"
 
 namespace ats {
 namespace display {
@@ -33,4 +33,4 @@ class GuiFactory: public QObject {
 } /* namespace display */
 } /* namespace ats */
 
-#endif /* GUIFACTORY_HPP_ */
+#endif /* GUIFACTORY_H_ */

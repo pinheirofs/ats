@@ -1,7 +1,7 @@
 #include <qmessagebox.h>
 #include <qmenubar.h>
 
-#include "atsmainwindow.hpp"
+#include "atsmainwindow.h"
 
 namespace ats {
 namespace display {
@@ -50,10 +50,6 @@ void AtsMainWindow::closeEvent(QCloseEvent * event) {
     else {
         event->accept();
     }
-}
-
-void AtsMainWindow::notify() {
-
 }
 
 /* getter/ssetter methods */

@@ -1,25 +1,53 @@
-#include "airtrafficmanagementcontroller.hpp"
+#include <qstring.h>
+#include <vector>
+
+#include "airtrafficmanagementcontroller.h"
+#include "routepoint.h"
+#include "traffic.h"
 
 using std::string;
 using std::vector;
+using ats::enviroment::Traffic;
 
 namespace ats {
 namespace display {
 
-AirTrafficManagementController::AirTrafficManagementController(Application *application) {
-    // TODO Auto-generated constructor stub
-
+AirTrafficManagementController::AirTrafficManagementController() {
 }
 
 AirTrafficManagementController::~AirTrafficManagementController() {
-    // TODO Auto-generated destructor stub
+    // sem implementacao
 }
 
-vector<string> *AirTrafficManagementController::getTrafficIds() {
-    // TODO retornar um smart pointer.
-    vector<string> *trafficIds = new vector<string>;
+void AirTrafficManagementController::setTrafficName(const QString &name) {
+    traffic.setName(name.toUtf8().constData());
+}
+void AirTrafficManagementController::setTrafficLatitude(const int indexRoutePoint, const double latitude) {
+    traffic.setRoutePointLatitudeAt(indexRoutePoint, latitude);
+}
 
-    return trafficIds;
+void AirTrafficManagementController::setTrafficLongitude(const int indexRoutePoint, const double longitude) {
+    traffic.setRoutePointLongitudeAt(indexRoutePoint, longitude);
+}
+
+void AirTrafficManagementController::setTrafficHeight(const int indexRoutePoint, const double height) {
+    traffic.setRoutePointHeightAt(indexRoutePoint, height);
+}
+
+void AirTrafficManagementController::setTrafficSpeed(const int indexRoutePoint, const double speed) {
+    traffic.setRoutePointSpeedAt(indexRoutePoint, speed);
+}
+
+void AirTrafficManagementController::saveTraffic() {
+    // TODO Adicionar a aplicacao;
+}
+
+void AirTrafficManagementController::addRoutePoint(int index) {
+    traffic.addRoutePointAt(index);
+}
+
+void AirTrafficManagementController::removeRoutePoint(int index) {
+    traffic.removeRoutePointAt(index);
 }
 
 } /* namespace display */

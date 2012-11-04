@@ -1,12 +1,9 @@
-#ifndef APPLICATIONCONTROLLER_HPP_
-#define APPLICATIONCONTROLLER_HPP_
+#ifndef APPLICATIONCONTROLLER_H_
+#define APPLICATIONCONTROLLER_H_
 
 #include <qobject.h>
 
-#include "application.hpp"
-#include "observable.hpp"
-
-using namespace ats::display::util;
+#include "application.h"
 
 namespace ats {
 namespace display {
@@ -14,7 +11,7 @@ namespace display {
 /*
  *
  */
-class ApplicationController: public QObject, public Observable {
+class ApplicationController: public QObject {
     public:
         ApplicationController(Application *Application);
         virtual ~ApplicationController();
@@ -28,4 +25,4 @@ class ApplicationController: public QObject, public Observable {
 
 } /* namespace display */
 } /* namespace ats */
-#endif /* APPLICATIONCONTROLLER_HPP_ */
+#endif /* APPLICATIONCONTROLLER_H_ */
