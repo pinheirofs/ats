@@ -12,7 +12,7 @@ using ats::enviroment::Traffic;
 namespace ats {
 namespace display {
 
-AirTrafficManagementController::AirTrafficManagementController() {
+AirTrafficManagementController::AirTrafficManagementController(Application *application) : application(0) {
 }
 
 AirTrafficManagementController::~AirTrafficManagementController() {
@@ -39,7 +39,7 @@ void AirTrafficManagementController::setTrafficSpeed(const int indexRoutePoint, 
 }
 
 void AirTrafficManagementController::saveTraffic() {
-    // TODO Adicionar a aplicacao;
+    application->addTraffic(traffic);
 }
 
 void AirTrafficManagementController::addRoutePoint(int index) {

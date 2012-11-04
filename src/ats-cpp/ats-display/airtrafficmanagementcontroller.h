@@ -3,8 +3,11 @@
 
 #include <string>
 #include <vector>
+
 #include <qobject.h>
+
 #include <traffic.h>
+#include "application.h";
 
 namespace ats {
 namespace display {
@@ -16,7 +19,7 @@ class AirTrafficManagementController: public QObject {
     Q_OBJECT
 
     public:
-        AirTrafficManagementController();
+        AirTrafficManagementController(Application *);
         virtual ~AirTrafficManagementController();
 
     public slots:
@@ -31,6 +34,7 @@ class AirTrafficManagementController: public QObject {
 
     private:
         ats::enviroment::Traffic traffic;
+        Application *application;
 
 };
 
