@@ -2,7 +2,13 @@ TEMPLATE = lib
 QT -= gui
 TARGET = ats-enviroment
 DEFINES += ATSENVIROMENT_LIBRARY
-HEADERS += routepoint.h \
+HEADERS += aircraft.h \
+    simulationlistener.h \
+    simulation.h \
+    routepoint.h \
     traffic.h
-SOURCES += routepoint.cpp \
+SOURCES += aircraft.cpp \
+    simulationlistener.cpp \
+    simulation.cpp \
+    routepoint.cpp \
     traffic.cpp

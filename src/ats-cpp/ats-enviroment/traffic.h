@@ -6,9 +6,6 @@
 
 #include "routepoint.h"
 
-using std::string;
-using std::vector;
-
 namespace ats {
 namespace enviroment {
 
@@ -20,8 +17,8 @@ class Traffic {
         Traffic();
         virtual ~Traffic();
 
-        string getName() const;
-        void setName(const string &name);
+        std::string getName() const;
+        void setName(const std::string &name);
         void addRoutePointAt(int index);
         void removeRoutePointAt(int index);
         void setRoutePointLatitudeAt(const int index, double latitude);
@@ -30,8 +27,8 @@ class Traffic {
         void setRoutePointHeightAt(const int index, double height);
 
     private:
-        string name;
-        vector<RoutePoint> routePoints;
+        std::string name;
+        std::vector<RoutePoint> routePoints;
 };
 
 } /* namespace enviroment */

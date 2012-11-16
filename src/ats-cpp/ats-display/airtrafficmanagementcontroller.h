@@ -7,7 +7,7 @@
 #include <qobject.h>
 
 #include <traffic.h>
-#include "application.h";
+#include "application.h"
 
 namespace ats {
 namespace display {

@@ -12,7 +12,8 @@ using ats::enviroment::Traffic;
 namespace ats {
 namespace display {
 
-AirTrafficManagementController::AirTrafficManagementController(Application *application) : application(0) {
+AirTrafficManagementController::AirTrafficManagementController(Application *application)
+        : application(application) {
 }
 
 AirTrafficManagementController::~AirTrafficManagementController() {

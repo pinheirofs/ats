@@ -1,5 +1,7 @@
 #include "traffic.h"
 
+using std::string;
+
 namespace ats {
 namespace enviroment {
 

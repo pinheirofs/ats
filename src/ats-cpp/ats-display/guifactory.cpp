@@ -35,7 +35,7 @@ void GuiFactory::showAtsMainWindow() {
 }
 
 void GuiFactory::showAirTrafficManagementWindow() {
-    AirTrafficManagementController *controller = new AirTrafficManagementController();
+    AirTrafficManagementController *controller = new AirTrafficManagementController(&application);
 
     AirTrafficManagementDialog *dialog = new AirTrafficManagementDialog(mainWindow);
 
