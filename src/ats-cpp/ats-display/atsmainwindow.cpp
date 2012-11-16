@@ -24,16 +24,26 @@ void AtsMainWindow::createMenus() {
     QMenuBar *menuBarInstance = menuBar();
 
     QMenu *simulationMenu = menuBarInstance->addMenu("&Air Traffic");
-    airTraficManagementAction = new QAction(tr("&Management"), this);
-    simulationMenu->addAction(airTraficManagementAction);
+    addAirTraficAction = new QAction(tr("&Add"), this);
+    simulationMenu->addAction(addAirTraficAction);
+    connect(addAirTraficAction, SIGNAL(triggered()), this, SLOT(addAirTraficActionTriggered()));
 
     QMenu *systemMenu = menuBarInstance->addMenu("S&ystem");
     exitAction = new QAction(tr("&Exit"), this);
     systemMenu->addAction(exitAction);
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(exitActionTriggered()));
 
 }
 
 /* SLOTs methods */
+
+void AtsMainWindow::exitActionTriggered() {
+    exitApplication();
+}
+
+void AtsMainWindow::addAirTraficActionTriggered() {
+    showAddAirtrafficDialog();
+}
 
 void AtsMainWindow::closeEvent(QCloseEvent * event) {
     if (controller->isRunningSimulation()) {
@@ -50,16 +60,6 @@ void AtsMainWindow::closeEvent(QCloseEvent * event) {
     else {
         event->accept();
     }
-}
-
-/* getter/ssetter methods */
-
-QAction *AtsMainWindow::getExitAction() {
-    return exitAction;
-}
-
-QAction *AtsMainWindow::getAirTrafficManagementAction() {
-    return airTraficManagementAction;
 }
 
 } /* namespace display */

@@ -20,19 +20,22 @@ class AtsMainWindow: public QMainWindow {
         AtsMainWindow(ApplicationController *controller);
         virtual ~AtsMainWindow();
 
-        QAction *getExitAction();
-        QAction *getAirTrafficManagementAction();
-
     protected:
         void closeEvent(QCloseEvent * event);
 
+    signals:
+        void exitApplication();
+        void showAddAirtrafficDialog();
+
     private slots:
+        void exitActionTriggered();
+        void addAirTraficActionTriggered();
 
     private:
         ApplicationController *controller;
 
         QAction *exitAction;
-        QAction *airTraficManagementAction;
+        QAction *addAirTraficAction;
 
         void config();
         void createMenus();

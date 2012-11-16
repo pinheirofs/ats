@@ -28,8 +28,8 @@ void GuiFactory::showAtsMainWindow() {
 
     mainWindow = new AtsMainWindow(controller);
 
-    connect(mainWindow->getExitAction(), SIGNAL(triggered()), mainWindow, SLOT(close()));
-    connect(mainWindow->getAirTrafficManagementAction(), SIGNAL(triggered()), this, SLOT(showAirTrafficManagementWindow()));
+    connect(mainWindow, SIGNAL(exitApplication()), mainWindow, SLOT(close()));
+    connect(mainWindow, SIGNAL(showAddAirtrafficDialog()), this, SLOT(showAirTrafficManagementWindow()));
 
     mainWindow->show();
 }
