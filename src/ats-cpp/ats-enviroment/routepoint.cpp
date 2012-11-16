@@ -3,28 +3,26 @@
 namespace ats {
 namespace enviroment {
 
+const double RoutePoint::DEFALUT_SPEED_KT = -1.0;
+const double RoutePoint::DEFALUT_HEIGTH_FT = -1.0;
+const double RoutePoint::DEFALUT_LATITUDE_DEGREES = -100.0;
+const double RoutePoint::DEFALUT_LONGITUDE_DEGREES = -200.0;
+
 RoutePoint::RoutePoint()
-        : id(0), speed_mn(0.0), heigth_ft(0.0), latitude_degrees(0.0), longitude_degrees(0.0) {
+        : speed_kt(DEFALUT_SPEED_KT), heigth_ft(DEFALUT_HEIGTH_FT), latitude_degrees(DEFALUT_LATITUDE_DEGREES), longitude_degrees(
+                DEFALUT_LONGITUDE_DEGREES) {
 }
 
 RoutePoint::~RoutePoint() {
     // sem implementacao
 }
 
-int RoutePoint::getId() {
-    return id;
+double RoutePoint::getSpeed_kt() {
+    return speed_kt;
 }
 
-void RoutePoint::setId(int id) {
-    this->id = id;
-}
-
-double RoutePoint::getSpeed_mn() {
-    return speed_mn;
-}
-
-void RoutePoint::setSpeed_mn(double speed_mn) {
-    this->speed_mn = speed_mn;
+void RoutePoint::setSpeed_kt(double speed_kt) {
+    this->speed_kt = speed_kt;
 }
 
 double RoutePoint::getHeigth_ft() {
@@ -49,10 +47,6 @@ double RoutePoint::getLongitude_degrees() {
 
 void RoutePoint::setLongitude_degrees(double longitude_degrees) {
     this->longitude_degrees = longitude_degrees;
-}
-
-bool RoutePoint::operator ==(const RoutePoint& other) {
-    return this->id == other.id;
 }
 
 } /* namespace enviroment */

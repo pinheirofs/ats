@@ -12,10 +12,8 @@ class RoutePoint {
         RoutePoint();
         virtual ~RoutePoint();
 
-        int getId();
-        void setId(int id);
-        double getSpeed_mn();
-        void setSpeed_mn(double speed_mn);
+        double getSpeed_kt();
+        void setSpeed_kt(double speed_mn);
         double getHeigth_ft();
         void setHeigth_ft(double heigth_ft);
         double getLatitude_degrees();
@@ -23,11 +21,13 @@ class RoutePoint {
         double getLongitude_degrees();
         void setLongitude_degrees(double longitude_degrees);
 
-        bool operator==(const RoutePoint & other);
+        static const double DEFALUT_SPEED_KT;
+        static const double DEFALUT_HEIGTH_FT;
+        static const double DEFALUT_LATITUDE_DEGREES;
+        static const double DEFALUT_LONGITUDE_DEGREES;
 
     private:
-        int id;
-        double speed_mn;
+        double speed_kt;
         double heigth_ft;
         double latitude_degrees;
         double longitude_degrees;

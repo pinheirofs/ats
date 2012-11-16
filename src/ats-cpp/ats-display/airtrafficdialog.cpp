@@ -8,31 +8,32 @@
 #include <qheaderview.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <qmessagebox.h>
 #include <qpushbutton.h>
 #include <qsizepolicy.h>
 
-#include "airtrafficmanagementdialog.h"
-#include "airtrafficmanagementcontroller.h"
+#include "airtrafficdialog.h"
+#include "airtrafficcontroller.h"
 
 namespace ats {
 namespace display {
 
 using namespace std;
 
-AirTrafficManagementDialog::AirTrafficManagementDialog(QWidget *parent)
+AirTrafficDialog::AirTrafficDialog(QWidget *parent)
         : QDialog(parent), nameLineEdit(0), routePointTable(0) {
     config();
     buildLayout();
 }
 
-void AirTrafficManagementDialog::buildLayout() {
+void AirTrafficDialog::buildLayout() {
     QVBoxLayout *mainLayout = new QVBoxLayout();
     mainLayout->addLayout(createTrafficDetailLayout());
     mainLayout->addLayout(createButtonsLayout());
 
     setLayout(mainLayout);
 }
-QLayout *AirTrafficManagementDialog::createButtonsLayout() {
+QLayout *AirTrafficDialog::createButtonsLayout() {
     QHBoxLayout *layout = new QHBoxLayout();
     layout->setAlignment(Qt::AlignRight);
 
@@ -43,11 +44,18 @@ QLayout *AirTrafficManagementDialog::createButtonsLayout() {
     return layout;
 }
 
-void AirTrafficManagementDialog::saveButtonCliecked() {
-    saveTraffic();
+void AirTrafficDialog::saveButtonCliecked() {
+    if (isValidTraffic()) {
+        saveTraffic();
+
+        QMessageBox::information(this, tr("Traffic"), tr("Traffic save at simulation."));
+    }
+    else {
+        QMessageBox::warning(this, tr("Traffic"), tr("Error at new traffic."));
+    }
 }
 
-QLayout *AirTrafficManagementDialog::createTrafficDetailLayout() {
+QLayout *AirTrafficDialog::createTrafficDetailLayout() {
     QVBoxLayout *baseLayout = new QVBoxLayout();
 
     QHBoxLayout *nameLayout = new QHBoxLayout();
@@ -93,19 +101,19 @@ QLayout *AirTrafficManagementDialog::createTrafficDetailLayout() {
     return baseLayout;
 }
 
-void AirTrafficManagementDialog::addRoutePointButtonClicked() {
+void AirTrafficDialog::addRoutePointButtonClicked() {
     int index = routePointTable->rowCount();
     routePointTable->insertRow(index);
     addRoutePoint(index);
 }
 
-void AirTrafficManagementDialog::removeRoutePointButtonClicked() {
+void AirTrafficDialog::removeRoutePointButtonClicked() {
     int index = routePointTable->rowCount();
     routePointTable->removeRow(index);
     removeRoutePoint(index);
 }
 
-void AirTrafficManagementDialog::routePointTableCellChanged(int row, int column) {
+void AirTrafficDialog::routePointTableCellChanged(int row, int column) {
     switch (column) {
         case 0:
             setTrafficLatitude(row, getLatitude(row));
@@ -122,23 +130,23 @@ void AirTrafficManagementDialog::routePointTableCellChanged(int row, int column)
     }
 }
 
-double AirTrafficManagementDialog::getHeight(int row) const {
+double AirTrafficDialog::getHeight(int row) const {
     return getDoubleValueFromTable(row, 3);
 }
 
-double AirTrafficManagementDialog::getSpeed(int row) const {
+double AirTrafficDialog::getSpeed(int row) const {
     return getDoubleValueFromTable(row, 2);
 }
 
-double AirTrafficManagementDialog::getLongitude(int row) const {
+double AirTrafficDialog::getLongitude(int row) const {
     return getDoubleValueFromTable(row, 1);
 }
 
-double AirTrafficManagementDialog::getLatitude(int row) const {
+double AirTrafficDialog::getLatitude(int row) const {
     return getDoubleValueFromTable(row, 0);
 }
 
-double AirTrafficManagementDialog::getDoubleValueFromTable(int row, int column) const {
+double AirTrafficDialog::getDoubleValueFromTable(int row, int column) const {
     QTableWidgetItem *item = routePointTable->item(row, column);
     QString text = item->text();
     if (text.isEmpty()) {
@@ -147,16 +155,16 @@ double AirTrafficManagementDialog::getDoubleValueFromTable(int row, int column) 
     return text.toDouble();
 }
 
-void AirTrafficManagementDialog::nameTextEdited(const QString &name) {
+void AirTrafficDialog::nameTextEdited(const QString &name) {
     setTrafficName(name);
 }
 
-void AirTrafficManagementDialog::config() {
-    setWindowTitle(tr("Traffic Management"));
+void AirTrafficDialog::config() {
+    setWindowTitle(tr("Traffic"));
     setMinimumSize(600, 400);
 }
 
-AirTrafficManagementDialog::~AirTrafficManagementDialog() {
+AirTrafficDialog::~AirTrafficDialog() {
 // sem implemetacao.
 }
 

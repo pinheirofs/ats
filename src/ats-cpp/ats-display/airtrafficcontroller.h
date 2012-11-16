@@ -15,22 +15,23 @@ namespace display {
 /*
  *
  */
-class AirTrafficManagementController: public QObject {
+class AirTrafficController: public QObject {
     Q_OBJECT
 
     public:
-        AirTrafficManagementController(Application *);
-        virtual ~AirTrafficManagementController();
+        AirTrafficController(Application *);
+        virtual ~AirTrafficController();
 
     public slots:
+        void addRoutePoint(int index);
+        void removeRoutePoint(int index);
         void setTrafficName(const QString &);
         void setTrafficLatitude(int indexRoutePoint, double latitude);
         void setTrafficLongitude(int indexRoutePoint, double longitude);
         void setTrafficHeight(int indexRoutePoint, double height);
         void setTrafficSpeed(int indexRoutePoint, double speed);
+        bool isValidTraffic();
         void saveTraffic();
-        void addRoutePoint(int index);
-        void removeRoutePoint(int index);
 
     private:
         ats::enviroment::Traffic traffic;

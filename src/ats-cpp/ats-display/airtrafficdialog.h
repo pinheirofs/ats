@@ -11,22 +11,23 @@ namespace display {
 /*
  *
  */
-class AirTrafficManagementDialog: public QDialog {
+class AirTrafficDialog: public QDialog {
     Q_OBJECT
 
     public:
-        AirTrafficManagementDialog(QWidget *parent);
-        virtual ~AirTrafficManagementDialog();
+        AirTrafficDialog(QWidget *parent);
+        virtual ~AirTrafficDialog();
 
     signals:
+        void addRoutePoint(int);
+        void removeRoutePoint(int);
         void setTrafficName(const QString &);
         void setTrafficLatitude(int indexRoutePoint, double latitude);
         void setTrafficLongitude(int indexRoutePoint, double longitude);
         void setTrafficHeight(int indexRoutePoint, double height);
         void setTrafficSpeed(int indexRoutePoint, double speed);
+        bool isValidTraffic();
         void saveTraffic();
-        void addRoutePoint(int);
-        void removeRoutePoint(int);
 
     private slots:
         void nameTextEdited(const QString &name);

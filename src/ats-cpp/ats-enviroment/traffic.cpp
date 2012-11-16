@@ -1,6 +1,7 @@
 #include "traffic.h"
 
 using std::string;
+using std::vector;
 
 namespace ats {
 namespace enviroment {
@@ -33,21 +34,29 @@ void Traffic::removeRoutePointAt(int index) {
 void Traffic::setRoutePointLatitudeAt(const int index, double latitude) {
     RoutePoint point = routePoints[index];
     point.setLatitude_degrees(latitude);
+    routePoints[index] = point;
 }
 
 void Traffic::setRoutePointLongitudeAt(const int index, double longitude) {
     RoutePoint point = routePoints[index];
     point.setLongitude_degrees(longitude);
+    routePoints[index] = point;
 }
 
 void Traffic::setRoutePointSpeedAt(const int index, double speed) {
     RoutePoint point = routePoints[index];
-    point.setSpeed_mn(speed);
+    point.setSpeed_kt(speed);
+    routePoints[index] = point;
 }
 
 void Traffic::setRoutePointHeightAt(const int index, double height) {
     RoutePoint point = routePoints[index];
     point.setHeigth_ft(height);
+    routePoints[index] = point;
+}
+
+vector<RoutePoint> Traffic::getRoutePoints() const {
+    return routePoints;
 }
 
 } /* namespace enviroment */

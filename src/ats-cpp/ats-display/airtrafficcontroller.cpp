@@ -1,53 +1,64 @@
 #include <qstring.h>
 #include <vector>
 
-#include "airtrafficmanagementcontroller.h"
+#include "airtrafficcontroller.h"
 #include "routepoint.h"
 #include "traffic.h"
+#include "trafficvalidator.h"
 
 using std::string;
 using std::vector;
+
+using ats::enviroment::RoutePoint;
 using ats::enviroment::Traffic;
+using ats::enviroment::TrafficValidator;
 
 namespace ats {
 namespace display {
 
-AirTrafficManagementController::AirTrafficManagementController(Application *application)
+AirTrafficController::AirTrafficController(Application *application)
         : application(application) {
 }
 
-AirTrafficManagementController::~AirTrafficManagementController() {
+AirTrafficController::~AirTrafficController() {
     // sem implementacao
 }
 
-void AirTrafficManagementController::setTrafficName(const QString &name) {
+void AirTrafficController::setTrafficName(const QString &name) {
     traffic.setName(name.toUtf8().constData());
 }
-void AirTrafficManagementController::setTrafficLatitude(const int indexRoutePoint, const double latitude) {
+void AirTrafficController::setTrafficLatitude(const int indexRoutePoint, const double latitude) {
     traffic.setRoutePointLatitudeAt(indexRoutePoint, latitude);
 }
 
-void AirTrafficManagementController::setTrafficLongitude(const int indexRoutePoint, const double longitude) {
+void AirTrafficController::setTrafficLongitude(const int indexRoutePoint, const double longitude) {
     traffic.setRoutePointLongitudeAt(indexRoutePoint, longitude);
 }
 
-void AirTrafficManagementController::setTrafficHeight(const int indexRoutePoint, const double height) {
+void AirTrafficController::setTrafficHeight(const int indexRoutePoint, const double height) {
     traffic.setRoutePointHeightAt(indexRoutePoint, height);
 }
 
-void AirTrafficManagementController::setTrafficSpeed(const int indexRoutePoint, const double speed) {
+void AirTrafficController::setTrafficSpeed(const int indexRoutePoint, const double speed) {
     traffic.setRoutePointSpeedAt(indexRoutePoint, speed);
 }
 
-void AirTrafficManagementController::saveTraffic() {
+bool AirTrafficController::isValidTraffic() {
+    TrafficValidator trafficValidator;
+    trafficValidator.setTraffic(traffic);
+
+    return trafficValidator.isValid();
+}
+
+void AirTrafficController::saveTraffic() {
     application->addTraffic(traffic);
 }
 
-void AirTrafficManagementController::addRoutePoint(int index) {
+void AirTrafficController::addRoutePoint(int index) {
     traffic.addRoutePointAt(index);
 }
 
-void AirTrafficManagementController::removeRoutePoint(int index) {
+void AirTrafficController::removeRoutePoint(int index) {
     traffic.removeRoutePointAt(index);
 }
 

@@ -25,6 +25,7 @@ class Traffic {
         void setRoutePointLongitudeAt(const int index, double longitude);
         void setRoutePointSpeedAt(const int index, double speed);
         void setRoutePointHeightAt(const int index, double height);
+        std::vector<RoutePoint> getRoutePoints() const;
 
     private:
         std::string name;
