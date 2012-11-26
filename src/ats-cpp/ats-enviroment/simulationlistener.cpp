@@ -1,15 +1,17 @@
 #include "simulationlistener.h"
 
+using std::string;
+
 namespace ats {
 namespace enviroment {
 
 SimulationListener::SimulationListener() {
-    // TODO Auto-generated constructor stub
-
 }
 
 SimulationListener::~SimulationListener() {
-    // TODO Auto-generated destructor stub
+}
+
+void SimulationListener::notify(const string name, const Coordinate coordinate) const {
 }
 
 } /* namespace enviroment */

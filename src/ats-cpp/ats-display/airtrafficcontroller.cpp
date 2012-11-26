@@ -28,19 +28,19 @@ void AirTrafficController::setTrafficName(const QString &name) {
     traffic.setName(name.toUtf8().constData());
 }
 void AirTrafficController::setTrafficLatitude(const int indexRoutePoint, const double latitude) {
-    traffic.setRoutePointLatitudeAt(indexRoutePoint, latitude);
+    traffic.setRoutePointLatitude_degrees(indexRoutePoint, latitude);
 }
 
 void AirTrafficController::setTrafficLongitude(const int indexRoutePoint, const double longitude) {
-    traffic.setRoutePointLongitudeAt(indexRoutePoint, longitude);
+    traffic.setRoutePointLongitude_degrees(indexRoutePoint, longitude);
 }
 
 void AirTrafficController::setTrafficHeight(const int indexRoutePoint, const double height) {
-    traffic.setRoutePointHeightAt(indexRoutePoint, height);
+    traffic.setRoutePointHeight_ft(indexRoutePoint, height);
 }
 
 void AirTrafficController::setTrafficSpeed(const int indexRoutePoint, const double speed) {
-    traffic.setRoutePointSpeedAt(indexRoutePoint, speed);
+    traffic.setRoutePointSpeed_kt(indexRoutePoint, speed);
 }
 
 bool AirTrafficController::isValidTraffic() {

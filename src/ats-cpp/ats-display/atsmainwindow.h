@@ -17,7 +17,7 @@ class AtsMainWindow: public QMainWindow {
     Q_OBJECT
 
     public:
-        AtsMainWindow(ApplicationController *controller);
+        AtsMainWindow();
         virtual ~AtsMainWindow();
 
     protected:
@@ -26,19 +26,27 @@ class AtsMainWindow: public QMainWindow {
     signals:
         void exitApplication();
         void showAddAirtrafficDialog();
+        void prepareSimulation();
+        void startSimulation();
+        bool isRunningSimulation();
 
     private slots:
         void exitActionTriggered();
         void addAirTraficActionTriggered();
+        void prepareSimulationActionTriggered();
+        void startSimulationActionTriggered();
 
     private:
-        ApplicationController *controller;
-
         QAction *exitAction;
         QAction *addAirTraficAction;
+        QAction *prepareSimulationAction;
+        QAction *startSimulationAction;
 
         void config();
         void createMenus();
+        void createAirTrafficMenu();
+        void createSystemMenu();
+        void createSimulationMenu();
 };
 
 } /* namespace display */

@@ -4,6 +4,7 @@
 #include <qobject.h>
 
 #include "application.h"
+#include "simulation.h"
 
 namespace ats {
 namespace display {
@@ -16,11 +17,16 @@ class ApplicationController: public QObject {
         ApplicationController(Application *Application);
         virtual ~ApplicationController();
 
+
+    public slots:
         bool isRunningSimulation();
-    private slots:
+        void prepareSimulation();
+        void startSimulation();
 
     private:
         Application *application;
+        ats::enviroment::Simulation simulation;
+
 };
 
 } /* namespace display */

@@ -33,44 +33,39 @@ bool TrafficValidator::isValid() const {
             return false;
         }
 
-        vector<RoutePoint> routePoints = traffic.getRoutePoints();
-        if (routePoints.size() < 2) {
+        int countRoutePoints = traffic.countRoutePoints();
+        if (countRoutePoints < 2) {
             return false;
         }
 
-        vector<RoutePoint>::iterator iterator = routePoints.begin();
-        while (iterator != routePoints.end()) {
-            RoutePoint temp = *iterator;
-
-            double heigth_ft = temp.getHeigth_ft();
+        for (int i = 0; i < countRoutePoints; i++) {
+            double heigth_ft = traffic.getRoutePointHeight_ft(i);
             if (heigth_ft == RoutePoint::DEFALUT_HEIGTH_FT) {
                 return false;
             } else if (heigth_ft < HEIGTH_MIN_FT || heigth_ft > HEIGTH_MAX_FT) {
                 return false;
             }
 
-            double latitude_degrees = temp.getLatitude_degrees();
+            double latitude_degrees = traffic.getRoutePointLatitude_degrees(i);
             if (latitude_degrees == RoutePoint::DEFALUT_LATITUDE_DEGREES) {
                 return false;
             } else if (latitude_degrees < LATITUDE_MIN_DEGREES || latitude_degrees > LATITUDE_MAX_DEGREES) {
                 return false;
             }
 
-            double longitude_degrees = temp.getLongitude_degrees();
-            if (temp.getLongitude_degrees() == RoutePoint::DEFALUT_LONGITUDE_DEGREES) {
+            double longitude_degrees = traffic.getRoutePointLongitude_degrees(i);
+            if (longitude_degrees == RoutePoint::DEFALUT_LONGITUDE_DEGREES) {
                 return false;
             } else if (longitude_degrees < LONGITUDE_MIN_DEGREES || longitude_degrees > LONGITUDE_MAX_DEGREES) {
                 return false;
             }
 
-            double speed_kt = temp.getSpeed_kt();
+            double speed_kt = traffic.getRoutePointSpeed_kt(i);
             if (speed_kt == RoutePoint::DEFALUT_SPEED_KT) {
                 return false;
             } else if (speed_kt < SPEED_MIN_KT || speed_kt > SPEED_MAX_KT) {
                 return false;
             }
-
-            ++iterator;
         }
 
         return true;
