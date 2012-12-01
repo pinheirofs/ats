@@ -1,7 +1,6 @@
 #ifndef SIMULATION_H_
 #define SIMULATION_H_
 
-#include <map>
 #include <vector>
 
 #include "aircraft.h"

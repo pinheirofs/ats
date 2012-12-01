@@ -1,5 +1,10 @@
-#include "aircraft.h"
+#include <cmath>
 
+#include "aircraft.h"
+#include "converter.h"
+
+using std::cos;
+using std::sin;
 using std::vector;
 
 namespace ats {
@@ -44,18 +49,18 @@ void Aircraft::setStretchHeading_degrees(const int index, const double heading_d
 
 double Aircraft::getStretchHeading_degrees(const int index) const {
     Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getHeightChangeRate_ft();
+    return aircraftcChangeRate.getHeightChangeRate_ft_ms();
 }
 
 void Aircraft::setStretchSpeed_kt(const int index, const double speed_kt) {
     Stretch aircraftcChangeRate = stretchs[index];
-    aircraftcChangeRate.setSpeedChangeRate_kt_ms2(speed_kt);
+    aircraftcChangeRate.setSpeedChangeRate_kt_ms(speed_kt);
     stretchs[index] = aircraftcChangeRate;
 }
 
 double Aircraft::getStretchSpeed_kt(const int index) const {
     Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getSpeedChangeRate_kt_ms2();
+    return aircraftcChangeRate.getSpeedChangeRate_kt_ms();
 }
 
 void Aircraft::setStretchHeight_ft(const int index, const double height_ft) {
@@ -66,7 +71,7 @@ void Aircraft::setStretchHeight_ft(const int index, const double height_ft) {
 
 double Aircraft::getStretchHeight_ft(const int index) const {
     Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getHeightChangeRate_ft();
+    return aircraftcChangeRate.getHeightChangeRate_ft_ms();
 }
 
 int Aircraft::countStretchs() const {
@@ -92,11 +97,27 @@ Coordinate Aircraft::evolve(long time_ms) {
         previusTime = stretch.getLimitTime_ms();
     }
 
-    long stretchTime = stretch.getLimitTime_ms() - previusTime;
+    Converter converter;
 
-    double initSpeed_kt_ms = stretch.getInitSpeed_kt_ms();
-    double speedChangeRate_kt_ms2 = stretch.getSpeedChangeRate_kt_ms2();
-    double distance = initSpeed_kt_ms * stretchTime + speedChangeRate_kt_ms2 * stretchTime * stretchTime * 0.5;
+    // Calculo do tempo gasto a patir do ultimo ponto.
+    long stretchTime_ms = stretch.getLimitTime_ms() - previusTime;
+    double stretchTime_h = converter.convertMillisecondToHour(stretchTime_ms);
+
+    // Calculo da distancia percorida a apartir do ultimo ponto, atraves da formula S = S0 + V0 * t + 0.5 * a * t ^ 2
+    double initSpeed_kt = stretch.getInitSpeed_kt();
+    double speedChangeRate_kt_ms = stretch.getSpeedChangeRate_kt_ms();
+    double distance_nm = initSpeed_kt * stretchTime_h + 0.5 * speedChangeRate_kt_ms * stretchTime_ms * stretchTime_h;
+
+    // Decomposição da distancia percorida em latitude e longitude.
+    double heading_rad = converter.convertDegreesToRadian(stretch.getHeading_deg());
+    double distanceLongitude_nm = distance_nm * cos(heading_rad);
+    double headingLatitude_sin = distance_nm * sin(heading_rad);
+
+    double heightChangeRate = stretch.getHeightChangeRate_ft_ms();
+
+
+    Coordinate coordinate;
+    return coordinate;
 }
 
 } /* namespace enviroment */

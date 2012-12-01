@@ -1,4 +1,5 @@
-#include <i386-linux-gnu/sys/timeb.h>
+#include <sys/timeb.h>
+#include <vector>
 
 #include "coordinate.h"
 #include "simulation.h"

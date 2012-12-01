@@ -35,8 +35,10 @@ Aircraft AircraftFactory::create(const Traffic traffic) {
         Stretch stretch;
         stretch.setLimitTime_ms(simulationTime_ms);
         stretch.setHeightChangeRate_ft_ms(streachCalculator.calculateHeightChangeRate_ft_ms());
-        stretch.setSpeedChangeRate_kt_ms2(streachCalculator.calculateSpeedChangeRate_kt_ms2());
+        stretch.setSpeedChangeRate_kt_ms(streachCalculator.calculateSpeedChangeRate_kt_ms());
         stretch.setHeading_deg(streachCalculator.calculateHeading_degrees());
+        stretch.setInitSpeed_kt(streachCalculator.getInitSpeed_kt());
+        stretch.setInitHeight_ft(streachCalculator.getInitHeight_ft());
 
         streachCalculator.advance();
     }

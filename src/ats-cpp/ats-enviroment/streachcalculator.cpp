@@ -72,7 +72,7 @@ double StreachCalculator::calculateHeightChangeRate_ft_ms() const {
     return (endHeight_ft - initHeight_ft) / calculateTimeInterval_ms();
 }
 
-double StreachCalculator::calculateSpeedChangeRate_kt_ms2() const {
+double StreachCalculator::calculateSpeedChangeRate_kt_ms() const {
     return (endSpeed_kt - initSpeed_kt) / calculateTimeInterval_ms();
 }
 
@@ -94,6 +94,14 @@ double StreachCalculator::calculateHeading_degrees() const {
     }
 
     return angle;
+}
+
+double StreachCalculator::getInitHeight_ft() const {
+	return initHeight_ft;
+}
+
+double StreachCalculator::getInitSpeed_kt() const {
+	return initSpeed_kt;
 }
 
 void StreachCalculator::advance() {

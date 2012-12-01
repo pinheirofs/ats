@@ -12,14 +12,16 @@ class Converter {
         Converter();
         virtual ~Converter();
 
-        double convertFtToNm(double value_ft);
-        double convertDegreesToNm(double value_degrees);
-        double convertRadianToDegrees(double value_rad);
-        double convertDegreesToRadian(double value_deg);
+        double convertFtToNm(double value_ft) const;
+        double convertDegreesToNm(double value_degrees) const;
+        double convertRadianToDegrees(double value_rad) const;
+        double convertDegreesToRadian(double value_deg) const;
+        double convertMillisecondToHour(double value_ms) const;
 
     private:
         static const double NM_IN_FT;
-        static const double NM_IN_DEGREES;
+        static const double NM_IN_DEG;
+        static const double MS_IN_HOUR;
 };
 
 } /* namespace enviroment */
