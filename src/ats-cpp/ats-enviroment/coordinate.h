@@ -1,6 +1,8 @@
 #ifndef COORDINATE_H_
 #define COORDINATE_H_
 
+#include "typedefs.h"
+
 namespace ats {
 namespace enviroment {
 
@@ -8,21 +10,19 @@ namespace enviroment {
  *
  */
 class Coordinate {
-    public:
-        Coordinate();
-        Coordinate(double latitude_deg, double longitude_deg, double height_ft);
-        virtual ~Coordinate();
+public:
+	Coordinate();
+	Coordinate(UnitLength latitude, UnitLength longitude, UnitLength height);
+	virtual ~Coordinate();
 
-        double getLatitude_deg() const;
-        double getLatitude_rad() const;
-        double getLongitude_deg() const;
-        double getLongitude_rad() const;
-        double getHeight_ft() const;
+	UnitLength getLatitude() const;
+	UnitLength getLongitude() const;
+	UnitLength getHeight() const;
 
-    private:
-        double latitude_rad;
-        double longitude_rad;
-        double height_ft;
+private:
+	UnitLength latitude;
+	UnitLength longitude;
+	UnitLength height;
 };
 
 } /* namespace enviroment */

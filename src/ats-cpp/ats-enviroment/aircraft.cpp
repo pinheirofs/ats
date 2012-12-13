@@ -1,11 +1,14 @@
-#include <cmath>
+#include <boost/units/cmath.hpp>
+#include <boost/units/systems/si/time.hpp>
 
 #include "aircraft.h"
 #include "converter.h"
 
-using std::cos;
-using std::sin;
 using std::vector;
+
+using boost::units::cos;
+using boost::units::sin;
+using boost::units::si::seconds;
 
 namespace ats {
 namespace enviroment {
@@ -30,93 +33,97 @@ void Aircraft::removeStretchAt(int index) {
     stretchs.erase(iterator);
 }
 
-void Aircraft::setStretchLimitTime_ms(const int index, const long limitTime_ms) {
-    Stretch aircraftcChangeRate = stretchs[index];
-    aircraftcChangeRate.setLimitTime_ms(limitTime_ms);
-    stretchs[index] = aircraftcChangeRate;
+void Aircraft::setStretchLimitTime(const int index, const UnitTime limitTime) {
+    Stretch stretch = stretchs[index];
+    stretch.setLimitTime(limitTime);
+    stretchs[index] = stretch;
 }
 
-long Aircraft::getStretchLimitTime_ms(const int index) const {
-    Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getLimitTime_ms();
+UnitTime Aircraft::getStretchLimitTime(const int index) const {
+    Stretch stretch = stretchs[index];
+    return stretch.getLimitTime();
 }
 
-void Aircraft::setStretchHeading_degrees(const int index, const double heading_degrees) {
-    Stretch aircraftcChangeRate = stretchs[index];
-    aircraftcChangeRate.setHeading_deg(heading_degrees);
-    stretchs[index] = aircraftcChangeRate;
+void Aircraft::setStretchHeading(const int index, const UnitAngle heading) {
+    Stretch stretch = stretchs[index];
+    stretch.setHeading(heading);
+    stretchs[index] = stretch;
 }
 
-double Aircraft::getStretchHeading_degrees(const int index) const {
-    Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getHeightChangeRate_ft_ms();
+UnitAngle Aircraft::getStretchHeading(const int index) const {
+    Stretch stretch = stretchs[index];
+    return stretch.getHeading();
 }
 
-void Aircraft::setStretchSpeed_kt(const int index, const double speed_kt) {
-    Stretch aircraftcChangeRate = stretchs[index];
-    aircraftcChangeRate.setSpeedChangeRate_kt_ms(speed_kt);
-    stretchs[index] = aircraftcChangeRate;
+void Aircraft::setStretchSpeed(const int index, const UnitVelocity speed) {
+    Stretch stretch = stretchs[index];
+    stretch.setInitSpeed(speed);
+    stretchs[index] = stretch;
 }
 
-double Aircraft::getStretchSpeed_kt(const int index) const {
-    Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getSpeedChangeRate_kt_ms();
+UnitVelocity Aircraft::getStretchSpeed(const int index) const {
+    Stretch stretch = stretchs[index];
+    return stretch.getInitSpeed();
 }
 
-void Aircraft::setStretchHeight_ft(const int index, const double height_ft) {
-    Stretch aircraftcChangeRate = stretchs[index];
-    aircraftcChangeRate.setHeightChangeRate_ft_ms(height_ft);
-    stretchs[index] = aircraftcChangeRate;
+void Aircraft::setStretchInitHeight(const int index, const UnitLength height) {
+    Stretch stretch = stretchs[index];
+    stretch.setInitHeight(height);
+    stretchs[index] = stretch;
 }
 
-double Aircraft::getStretchHeight_ft(const int index) const {
-    Stretch aircraftcChangeRate = stretchs[index];
-    return aircraftcChangeRate.getHeightChangeRate_ft_ms();
+UnitLength Aircraft::getStretchInitHeight(const int index) const {
+    Stretch stretch = stretchs[index];
+    return stretch.getInitHeight();
 }
 
 int Aircraft::countStretchs() const {
     return stretchs.size();
 }
 
-bool Aircraft::isFlying(long time_ms) {
+bool Aircraft::isFlying(UnitTime time) {
     Stretch lastStretch = *stretchs.end();
 
-    return lastStretch.getLimitTime_ms() < time_ms;
+    return lastStretch.getLimitTime() < time;
 }
 
-Coordinate Aircraft::evolve(long time_ms) {
+Coordinate Aircraft::evolve(UnitTime time) {
     Stretch stretch;
-    long previusTime = 0;
+    UnitTime previusTime(0.0 * seconds);
     vector<Stretch>::iterator iterator = stretchs.begin();
     while (iterator != stretchs.end()) {
         stretch = *iterator;
-        if (stretch.getLimitTime_ms() > time_ms) {
+        if (stretch.getLimitTime() > time) {
             break;
         }
 
-        previusTime = stretch.getLimitTime_ms();
+        previusTime = stretch.getLimitTime();
     }
 
     Converter converter;
 
     // Calculo do tempo gasto a patir do ultimo ponto.
-    long stretchTime_ms = stretch.getLimitTime_ms() - previusTime;
-    double stretchTime_h = converter.convertMillisecondToHour(stretchTime_ms);
+    UnitTime stretchTime = stretch.getLimitTime() - previusTime;
 
     // Calculo da distancia percorida a apartir do ultimo ponto, atraves da formula S = S0 + V0 * t + 0.5 * a * t ^ 2
-    double initSpeed_kt = stretch.getInitSpeed_kt();
-    double speedChangeRate_kt_ms = stretch.getSpeedChangeRate_kt_ms();
-    double distance_nm = initSpeed_kt * stretchTime_h + 0.5 * speedChangeRate_kt_ms * stretchTime_ms * stretchTime_h;
+    UnitVelocity initSpeed = stretch.getInitSpeed();
+    UnitAcceleration speedChangeRate = stretch.getSpeedChangeRate();
+    UnitLength distance = initSpeed * stretchTime + 0.5 * speedChangeRate * stretchTime * stretchTime;
 
     // Decomposição da distancia percorida em latitude e longitude.
-    double heading_rad = converter.convertDegreesToRadian(stretch.getHeading_deg());
-    double distanceLongitude_nm = distance_nm * cos(heading_rad);
-    double headingLatitude_sin = distance_nm * sin(heading_rad);
+    UnitAngle heading = stretch.getHeading();
 
-    double heightChangeRate = stretch.getHeightChangeRate_ft_ms();
+    UnitLength distanceLongitude = distance * cos(heading);
+    UnitLength newLongitude = stretch.getInitLongitude() + distanceLongitude;
 
+    UnitLength distanceLatitude = distance * sin(heading);
+    UnitLength newLatitude = stretch.getInitLatitude() + distanceLatitude;
 
-    Coordinate coordinate;
+    // Calculo da alteracao de altitude
+    UnitVelocity heightChangeRate = stretch.getHeightChangeRate();
+    UnitLength newHeight = stretch.getInitHeight() + heightChangeRate * stretchTime;
+
+    Coordinate coordinate(newLatitude, newLongitude, newHeight);
     return coordinate;
 }
 

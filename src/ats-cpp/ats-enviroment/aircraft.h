@@ -6,13 +6,11 @@
 
 #include "coordinate.h"
 #include "stretch.h"
+#include "typedefs.h"
 
 namespace ats {
 namespace enviroment {
 
-/*
- *
- */
 class Aircraft {
     public:
         Aircraft();
@@ -21,17 +19,17 @@ class Aircraft {
         void setName(std::string name);
         std::string getName();
         void removeStretchAt(int index);
-        void setStretchLimitTime_ms(const int index, const long limitTime_ms);
-        long getStretchLimitTime_ms(const int index) const;
-        void setStretchHeading_degrees(const int index, const double heading_degrees);
-        double getStretchHeading_degrees(const int index) const;
-        void setStretchSpeed_kt(const int index, const double speed_kt);
-        double getStretchSpeed_kt(const int index) const;
-        void setStretchHeight_ft(const int index, const double height_ft);
-        double getStretchHeight_ft(const int index) const;
+        void setStretchLimitTime(const int index, const UnitTime limitTime);
+        UnitTime getStretchLimitTime(const int index) const;
+        void setStretchHeading(const int index, const UnitAngle heading);
+        UnitAngle getStretchHeading(const int index) const;
+        void setStretchSpeed(const int index, const UnitVelocity speed);
+        UnitVelocity getStretchSpeed(const int index) const;
+        void setStretchInitHeight(const int index, const UnitLength height);
+        UnitLength getStretchInitHeight(const int index) const;
         int countStretchs() const;
-        bool isFlying(long time_ms);
-        Coordinate evolve(long time_ms);
+        bool isFlying(UnitTime time);
+        Coordinate evolve(UnitTime time);
 
     private:
         std::string name;

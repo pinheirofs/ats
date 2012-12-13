@@ -1,6 +1,8 @@
 #ifndef AIRCRAFTCCHANGERATE_H_
 #define AIRCRAFTCCHANGERATE_H_
 
+#include "typedefs.h"
+
 namespace ats {
 namespace enviroment {
 
@@ -12,26 +14,32 @@ class Stretch {
         Stretch();
         virtual ~Stretch();
 
-        long getLimitTime_ms() const;
-        void setLimitTime_ms(const long limitTime_ms);
-        double getHeading_deg();
-        void setHeading_deg(const double heading_deg);
-        double getSpeedChangeRate_kt_ms() const;
-        void setSpeedChangeRate_kt_ms(const double speedChangeRate_kt_ms);
-        double getHeightChangeRate_ft_ms() const;
-        void setHeightChangeRate_ft_ms(const double heghtChangeRate_deg);
-        double getInitSpeed_kt() const;
-        void setInitSpeed_kt(const double initSpeed_kt);
-        double getInitHeight_ft() const;
-        void setInitHeight_ft(const double initHeight_ft);
+        UnitTime getLimitTime() const;
+        void setLimitTime(const UnitTime limitTime);
+        UnitAngle getHeading() const;
+        void setHeading(const UnitAngle heading);
+        UnitAcceleration getSpeedChangeRate() const;
+        void setSpeedChangeRate(const UnitAcceleration speedChangeRate);
+        UnitVelocity getHeightChangeRate() const;
+        void setHeightChangeRate(const UnitVelocity heghtChangeRate);
+        UnitVelocity getInitSpeed() const;
+        void setInitSpeed(const UnitVelocity initSpeed);
+        UnitLength getInitHeight() const;
+        void setInitHeight(const UnitLength initHeight);
+        UnitLength getInitLatitude() const;
+        void setInitLatitude(const UnitLength initLatitude);
+        UnitLength getInitLongitude() const;
+        void setInitLongitude(const UnitLength initLongitude);
 
     private:
-        long limitTime_ms;
-        double heading_degrees;
-        double speedChangeRate_kt_ms;
-        double heightChangeRate_ft_ms;
-        double initSpeed_kt;
-        double initHeight_ft;
+        UnitTime limitTime;
+        UnitAngle heading;
+        UnitAcceleration speedChangeRate;
+        UnitVelocity heightChangeRate;
+        UnitVelocity initSpeed;
+        UnitLength initHeight;
+        UnitLength initLatitude;
+        UnitLength initLongitude;
 };
 
 } /* namespace enviroment */

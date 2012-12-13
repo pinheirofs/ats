@@ -1,52 +1,58 @@
+#include <boost/units/systems/si/length.hpp>
+#include <boost/units/systems/si/velocity.hpp>
+
 #include "routepoint.h"
 
 namespace ats {
 namespace enviroment {
 
-const double RoutePoint::DEFALUT_SPEED_KT = -1.0;
-const double RoutePoint::DEFALUT_HEIGTH_FT = -1.0;
-const double RoutePoint::DEFALUT_LATITUDE_DEGREES = -100.0;
-const double RoutePoint::DEFALUT_LONGITUDE_DEGREES = -200.0;
+using boost::units::si::meters;
+using boost::units::si::meters_per_second;
 
-RoutePoint::RoutePoint()
-        : speed_kt(DEFALUT_SPEED_KT), heigth_ft(DEFALUT_HEIGTH_FT), latitude_degrees(DEFALUT_LATITUDE_DEGREES), longitude_degrees(
-                DEFALUT_LONGITUDE_DEGREES) {
+const UnitVelocity RoutePoint::DEFALUT_SPEED(0.0 * meters_per_second);
+const UnitLength RoutePoint::DEFALUT_HEIGTH(0.0 * meters);
+const UnitLength RoutePoint::DEFALUT_LATITUDE(0.0 * meters);
+const UnitLength RoutePoint::DEFALUT_LONGITUDE(0.0 * meters);
+
+RoutePoint::RoutePoint() :
+		speed(DEFALUT_SPEED), heigth(DEFALUT_HEIGTH), latitude(DEFALUT_LATITUDE), longitude(
+				DEFALUT_LONGITUDE) {
 }
 
 RoutePoint::~RoutePoint() {
-    // sem implementacao
+	// sem implementacao
 }
 
-double RoutePoint::getSpeed_kt() {
-    return speed_kt;
+UnitVelocity RoutePoint::getSpeed() {
+	return speed;
 }
 
-void RoutePoint::setSpeed_kt(double speed_kt) {
-    this->speed_kt = speed_kt;
+void RoutePoint::setSpeed(UnitVelocity speed) {
+	this->speed = speed;
 }
 
-double RoutePoint::getHeigth_ft() {
-    return heigth_ft;
+UnitLength RoutePoint::getHeigth() {
+	return heigth;
 }
 
-void RoutePoint::setHeigth_ft(double heigth_ft) {
-    this->heigth_ft = heigth_ft;
+void RoutePoint::setHeigth(UnitLength heigth) {
+	this->heigth = heigth;
 }
 
-double RoutePoint::getLatitude_degrees() {
-    return latitude_degrees;
+UnitLength RoutePoint::getLatitude() {
+	return latitude;
 }
 
-void RoutePoint::setLatitude_degrees(double latitude_degrees) {
-    this->latitude_degrees = latitude_degrees;
+void RoutePoint::setLatitude(UnitLength latitude) {
+	this->latitude = latitude;
 }
 
-double RoutePoint::getLongitude_degrees() {
-    return longitude_degrees;
+UnitLength RoutePoint::getLongitude() {
+	return longitude;
 }
 
-void RoutePoint::setLongitude_degrees(double longitude_degrees) {
-    this->longitude_degrees = longitude_degrees;
+void RoutePoint::setLongitude(UnitLength longitude) {
+	this->longitude = longitude;
 }
 
 } /* namespace enviroment */

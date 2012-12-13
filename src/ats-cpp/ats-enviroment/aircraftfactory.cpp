@@ -1,6 +1,7 @@
 #include "aircraftfactory.h"
 #include "converter.h"
 #include "streachcalculator.h"
+#include "typedefs.h"
 
 namespace ats {
 namespace enviroment {
@@ -17,28 +18,30 @@ Aircraft AircraftFactory::create(const Traffic traffic) {
     aircraft.setName(traffic.getName());
 
     StreachCalculator streachCalculator;
-    streachCalculator.setInitHeight_ft(traffic.getRoutePointHeight_ft(0));
-    streachCalculator.setInitLatitude_degrees(traffic.getRoutePointLatitude_degrees(0));
-    streachCalculator.setInitLongitude_degrees(traffic.getRoutePointLongitude_degrees(0));
-    streachCalculator.setInitSpeed_kt(traffic.getRoutePointSpeed_kt(0));
+    streachCalculator.setInitHeight(traffic.getRoutePointHeight(0));
+    streachCalculator.setInitLatitude(traffic.getRoutePointLatitude(0));
+    streachCalculator.setInitLongitude(traffic.getRoutePointLongitude(0));
+    streachCalculator.setInitSpeed(traffic.getRoutePointSpeed(0));
 
     Converter converter;
-    long simulationTime_ms = 0;
+    UnitTime simulationTime = 0;
     for (int i = 1; i < traffic.countRoutePoints(); i++) {
-        streachCalculator.setEndHeight_ft(traffic.getRoutePointHeight_ft(i));
-        streachCalculator.setEndLatitude_degrees(traffic.getRoutePointLatitude_degrees(i));
-        streachCalculator.setEndLongitude_degrees(traffic.getRoutePointLongitude_degrees(i));
-        streachCalculator.setEndSpeed_kt(traffic.getRoutePointSpeed_kt(i));
+        streachCalculator.setEndHeight(traffic.getRoutePointHeight(i));
+        streachCalculator.setEndLatitude(traffic.getRoutePointLatitude(i));
+        streachCalculator.setEndLongitude(traffic.getRoutePointLongitude(i));
+        streachCalculator.setEndSpeed(traffic.getRoutePointSpeed(i));
 
-        simulationTime_ms += streachCalculator.calculateTimeInterval_ms();
+        simulationTime += streachCalculator.calculateTimeInterval();
 
         Stretch stretch;
-        stretch.setLimitTime_ms(simulationTime_ms);
-        stretch.setHeightChangeRate_ft_ms(streachCalculator.calculateHeightChangeRate_ft_ms());
-        stretch.setSpeedChangeRate_kt_ms(streachCalculator.calculateSpeedChangeRate_kt_ms());
-        stretch.setHeading_deg(streachCalculator.calculateHeading_degrees());
-        stretch.setInitSpeed_kt(streachCalculator.getInitSpeed_kt());
-        stretch.setInitHeight_ft(streachCalculator.getInitHeight_ft());
+        stretch.setLimitTime(simulationTime);
+        stretch.setHeightChangeRate(streachCalculator.calculateHeightChangeRate());
+        stretch.setSpeedChangeRate(streachCalculator.calculateSpeedChangeRate());
+        stretch.setHeading(streachCalculator.calculateHeading());
+        stretch.setInitSpeed(streachCalculator.getInitSpeed());
+        stretch.setInitHeight(streachCalculator.getInitHeight());
+        stretch.setInitLatitude(streachCalculator.getInitLatitude());
+        stretch.setInitLongitude(streachCalculator.getInitLongitude());
 
         streachCalculator.advance();
     }

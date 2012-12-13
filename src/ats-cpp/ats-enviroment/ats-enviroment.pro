@@ -2,7 +2,8 @@ TEMPLATE = lib
 QT -= gui
 TARGET = ats-enviroment
 DEFINES += ATSENVIROMENT_LIBRARY
-HEADERS += coordinate.h \
+HEADERS += typedefs.h \
+    coordinate.h \
     streachcalculator.h \
     stretch.h \
     converter.h \

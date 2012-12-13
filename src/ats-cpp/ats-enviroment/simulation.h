@@ -5,6 +5,7 @@
 
 #include "aircraft.h"
 #include "simulationlistener.h"
+#include "typedefs.h"
 
 namespace ats {
 namespace enviroment {
@@ -19,20 +20,20 @@ class Simulation {
 
         void clearAircrafts();
         void addAircraft(Aircraft &aircraft);
-        void setSleepTime_msec(long sleepTime);
+        void setSleepTime(UnitTime sleepTime);
         void addSimulationListener(SimulationListener simulationListener);
         void start();
 
     private:
         std::vector<Aircraft> aircrafts;
         std::vector<SimulationListener> simulationListeners;
-        long sleepTime;
-        long startedTime_ms;
+        UnitTime sleepTime;
+        UnitTime startedTime;
 
         void evolveAllAircarft();
-        void evolve(Aircraft& aircraft, long time_ms);
+        void evolve(Aircraft& aircraft, UnitTime time);
 
-        static long getTime_ms();
+        static UnitTime getTime();
 };
 
 } /* namespace enviroment */

@@ -33,48 +33,48 @@ void Traffic::removeRoutePointAt(int index) {
     routePoints.erase(iterator);
 }
 
-void Traffic::setRoutePointLatitude_degrees(const int index, double latitude_degrees) {
+void Traffic::setRoutePointLatitude(const int index, UnitLength latitude) {
     RoutePoint point = routePoints[index];
-    point.setLatitude_degrees(latitude_degrees);
+    point.setLatitude(latitude);
     routePoints[index] = point;
 }
 
-double Traffic::getRoutePointLatitude_degrees(const int index) const {
+UnitLength Traffic::getRoutePointLatitude(const int index) const {
     RoutePoint point = routePoints[index];
-    return point.getLatitude_degrees();
+    return point.getLatitude();
 }
 
-void Traffic::setRoutePointLongitude_degrees(const int index, double longitude_degrees) {
+void Traffic::setRoutePointLongitude(const int index, UnitLength longitude) {
     RoutePoint point = routePoints[index];
-    point.setLongitude_degrees(longitude_degrees);
+    point.setLongitude(longitude);
     routePoints[index] = point;
 }
 
-double Traffic::getRoutePointLongitude_degrees(const int index) const {
+UnitLength Traffic::getRoutePointLongitude(const int index) const {
     RoutePoint point = routePoints[index];
-    return point.getLongitude_degrees();
+    return point.getLongitude();
 }
 
-void Traffic::setRoutePointSpeed_kt(const int index, double speed_kt) {
+void Traffic::setRoutePointSpeed(const int index, UnitVelocity speed) {
     RoutePoint point = routePoints[index];
-    point.setSpeed_kt(speed_kt);
+    point.setSpeed(speed);
     routePoints[index] = point;
 }
 
-double Traffic::getRoutePointSpeed_kt(const int index) const {
+UnitVelocity Traffic::getRoutePointSpeed(const int index) const {
     RoutePoint point = routePoints[index];
-    return point.getSpeed_kt();
+    return point.getSpeed();
 }
 
-void Traffic::setRoutePointHeight_ft(const int index, double height_ft) {
+void Traffic::setRoutePointHeight(const int index, UnitLength height) {
     RoutePoint point = routePoints[index];
-    point.setHeigth_ft(height_ft);
+    point.setHeigth(height);
     routePoints[index] = point;
 }
 
-double Traffic::getRoutePointHeight_ft(const int index) const {
+UnitLength Traffic::getRoutePointHeight(const int index) const {
     RoutePoint point = routePoints[index];
-    return point.getHeigth_ft();
+    return point.getHeigth();
 }
 
 int Traffic::countRoutePoints() const {

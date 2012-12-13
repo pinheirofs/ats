@@ -5,43 +5,28 @@
 #include "converter.h"
 #include "coordinate.h"
 
+using boost::units::si::meters;
+
 namespace ats {
 namespace enviroment {
 
-
-Coordinate::Coordinate()
-        : latitude_rad(0.0), longitude_rad(0.0), height_ft(0.0) {
-}
-
-Coordinate::Coordinate(double latitude_deg, double longitude_deg, double height_ft) : height_ft(height_ft) {
-    Converter converter;
-    latitude_rad = converter.convertDegreesToRadian(latitude_deg);
-    longitude_rad = converter.convertDegreesToRadian(longitude_deg);
+Coordinate::Coordinate() :
+		latitude(0.0 * meters), longitude(0.0 * meters), height(0.0 * meters) {
 }
 
 Coordinate::~Coordinate() {
 }
 
-double Coordinate::getLatitude_deg() const {
-    Converter converter;
-    return converter.convertRadianToDegrees(latitude_rad);
+UnitLength Coordinate::getLatitude() const {
+	return latitude;
 }
 
-double Coordinate::getLatitude_rad() const {
-    return latitude_rad;
+UnitLength Coordinate::getLongitude() const {
+	return longitude;
 }
 
-double Coordinate::getLongitude_deg() const {
-    Converter converter;
-    return converter.convertRadianToDegrees(longitude_rad);
-}
-
-double Coordinate::getLongitude_rad() const {
-    return longitude_rad;
-}
-
-double Coordinate::getHeight_ft() const {
-    return height_ft;
+UnitLength Coordinate::getHeight() const {
+	return height;
 }
 
 } /* namespace enviroment */

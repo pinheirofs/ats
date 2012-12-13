@@ -1,62 +1,84 @@
 #include "stretch.h"
 
+using boost::units::si::meters;
+using boost::units::si::meters_per_second;
+using boost::units::si::meters_per_second_squared;
+using boost::units::si::radians;
+using boost::units::si::second;
+
 namespace ats {
 namespace enviroment {
 
 Stretch::Stretch()
-        : limitTime_ms(0), heading_degrees(0.0), speedChangeRate_kt_ms(0.0), heightChangeRate_ft_ms(0.0),
-                initSpeed_kt(0.0), initHeight_ft(0.0) {
+        : limitTime(0 * second), heading(0.0 * radians), speedChangeRate(0.0 * meters_per_second_squared), heightChangeRate(0.0 * meters_per_second),
+                initSpeed(0.0 * meters_per_second), initHeight(0.0 * meters), initLatitude(0.0 * meters), initLongitude(0.0 * meters) {
 }
 
 Stretch::~Stretch() {
 }
 
-long Stretch::getLimitTime_ms() const {
-    return limitTime_ms;
+UnitTime Stretch::getLimitTime() const {
+    return limitTime;
 }
 
-void Stretch::setLimitTime_ms(const long limitTime_ms) {
-    this->limitTime_ms = limitTime_ms;
+void Stretch::setLimitTime(const UnitTime limitTime) {
+    this->limitTime = limitTime;
 }
 
-double Stretch::getHeightChangeRate_ft_ms() const {
-    return heightChangeRate_ft_ms;
+UnitVelocity Stretch::getHeightChangeRate() const {
+    return heightChangeRate;
 }
 
-void Stretch::setHeightChangeRate_ft_ms(const double heghtChangeRate_ft_ms) {
-    this->heightChangeRate_ft_ms = heghtChangeRate_ft_ms;
+void Stretch::setHeightChangeRate(const UnitVelocity heghtChangeRate) {
+    this->heightChangeRate = heghtChangeRate;
 }
 
-double Stretch::getHeading_deg() {
-    return heading_degrees;
+UnitAngle Stretch::getHeading() const {
+    return heading;
 }
 
-void Stretch::setHeading_deg(const double heading_degrees) {
-    this->heading_degrees = heading_degrees;
+void Stretch::setHeading(const UnitAngle heading) {
+    this->heading = heading;
 }
 
-double Stretch::getSpeedChangeRate_kt_ms() const {
-    return speedChangeRate_kt_ms;
+UnitAcceleration Stretch::getSpeedChangeRate() const {
+    return speedChangeRate;
 }
 
-void Stretch::setSpeedChangeRate_kt_ms(const double speedChangeRateKt) {
-    speedChangeRate_kt_ms = speedChangeRateKt;
+void Stretch::setSpeedChangeRate(const UnitAcceleration speedChangeRate) {
+    this->speedChangeRate = speedChangeRate;
 }
 
-double Stretch::getInitSpeed_kt() const {
-    return initSpeed_kt;
+UnitVelocity Stretch::getInitSpeed() const {
+    return initSpeed;
 }
 
-void Stretch::setInitSpeed_kt(const double initSpeed_kt) {
-    this->initSpeed_kt = initSpeed_kt;
+void Stretch::setInitSpeed(const UnitVelocity initSpeed) {
+    this->initSpeed = initSpeed;
 }
 
-double Stretch::getInitHeight_ft() const {
-	return initHeight_ft;
+UnitLength Stretch::getInitHeight() const {
+	return initHeight;
 }
 
-void Stretch::setInitHeight_ft(const double initHeight_ft) {
-	this->initHeight_ft = initHeight_ft;
+void Stretch::setInitHeight(const UnitLength initHeight) {
+	this->initHeight = initHeight;
+}
+
+UnitLength Stretch::getInitLatitude() const {
+	return initLatitude;
+}
+
+void Stretch::setInitLatitude(const UnitLength initLatitude_deg) {
+	this->initLatitude = initLatitude_deg;
+}
+
+UnitLength Stretch::getInitLongitude() const {
+	return initLongitude;
+}
+
+void Stretch::setInitLongitude(const UnitLength initLongitude_deg) {
+	this->initLongitude = initLongitude_deg;
 }
 
 } /* namespace enviroment */

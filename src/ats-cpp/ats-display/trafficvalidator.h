@@ -2,6 +2,7 @@
 #define TRAFFICVALIDATOR_H_
 
 #include "traffic.h"
+#include "typedefs.h"
 
 namespace ats {
 namespace enviroment {
@@ -17,14 +18,14 @@ class TrafficValidator {
         void setTraffic(const Traffic traffic);
         bool isValid() const;
 
-        static const double HEIGTH_MAX_FT;
-        static const double HEIGTH_MIN_FT;
-        static const double LATITUDE_MAX_DEGREES;
-        static const double LATITUDE_MIN_DEGREES;
-        static const double LONGITUDE_MAX_DEGREES;
-        static const double LONGITUDE_MIN_DEGREES;
-        static const double SPEED_MAX_KT;
-        static const double SPEED_MIN_KT;
+        static const UnitLength HEIGTH_MAX;
+        static const UnitLength HEIGTH_MIN;
+        static const UnitLength LATITUDE_MAX;
+        static const UnitLength LATITUDE_MIN;
+        static const UnitLength LONGITUDE_MAX;
+        static const UnitLength LONGITUDE_MIN;
+        static const UnitVelocity SPEED_MAX;
+        static const UnitVelocity SPEED_MIN;
 
     private:
         Traffic traffic;

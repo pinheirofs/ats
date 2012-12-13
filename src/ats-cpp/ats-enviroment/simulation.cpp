@@ -5,12 +5,13 @@
 #include "simulation.h"
 
 using std::vector;
+using boost::units::si::seconds;
 
 namespace ats {
 namespace enviroment {
 
 Simulation::Simulation()
-        : sleepTime(0), startedTime_ms(0) {
+        : sleepTime(0), startedTime(0) {
 }
 
 Simulation::~Simulation() {
@@ -20,7 +21,7 @@ void Simulation::addAircraft(Aircraft &aircraft) {
     aircrafts.push_back(aircraft);
 }
 
-void Simulation::setSleepTime_msec(long sleepTime) {
+void Simulation::setSleepTime(UnitTime sleepTime) {
     this->sleepTime = sleepTime;
 }
 
@@ -32,8 +33,8 @@ void Simulation::clearAircrafts() {
     aircrafts.clear();
 }
 
-void Simulation::evolve(Aircraft& aircraft, long time_ms) {
-    Coordinate coordiante = aircraft.evolve(time_ms);
+void Simulation::evolve(Aircraft& aircraft, UnitTime time) {
+    Coordinate coordiante = aircraft.evolve(time);
 
     std::vector<SimulationListener>::iterator iterator = simulationListeners.begin();
     while (iterator != simulationListeners.end()) {
@@ -47,11 +48,11 @@ void Simulation::evolveAllAircarft() {
     while (iterator != aircrafts.end()) {
         Aircraft aircraft = *iterator;
 
-        long deltaTime_ms = getTime_ms() - startedTime_ms;
-        if (!aircraft.isFlying(deltaTime_ms)) {
+        UnitTime deltaTime = getTime() - startedTime;
+        if (!aircraft.isFlying(deltaTime)) {
             aircrafts.erase(iterator);
         } else {
-            evolve(aircraft, deltaTime_ms);
+            evolve(aircraft, deltaTime);
         }
 
         iterator++;
@@ -59,17 +60,21 @@ void Simulation::evolveAllAircarft() {
 }
 
 void Simulation::start() {
-    startedTime_ms = getTime_ms();
+    startedTime = getTime();
 
     while (!aircrafts.empty()) {
         evolveAllAircarft();
     }
 }
 
-long Simulation::getTime_ms() {
-    struct timeb time;
-    ftime(&time);
-    return time.time * 1000 + time.millitm;
+UnitTime Simulation::getTime() {
+    struct timeb instant;
+    ftime(&instant);
+    
+    double instantSeconds = instant.time;
+    double instantMiliseconds = instant.millitm;
+    double time = instantSeconds + (instantMiliseconds / 1000.0);
+    return UnitTime(time * seconds);
 }
 
 } /* namespace enviroment */

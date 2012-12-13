@@ -8,7 +8,8 @@ namespace ats {
 namespace enviroment {
 
 const double Converter::NM_IN_FT = 6076.11549;
-const double Converter::NM_IN_DEG = 0.0166666667;
+const double Converter::NM_IN_DEG = 60.0;
+const double Converter::DEG_IN_NM = 0.0166666667;
 const double Converter::MS_IN_HOUR = 3600000.0;
 
 Converter::Converter() {
@@ -18,11 +19,11 @@ Converter::~Converter() {
 }
 
 double Converter::convertFtToNm(double value_ft) const {
-    return value_ft / NM_IN_FT;
+    return value_ft * NM_IN_FT;
 }
 
 double Converter::convertDegreesToNm(double value_degrees) const {
-    return value_degrees / NM_IN_DEG;
+    return value_degrees * NM_IN_DEG;
 }
 
 double Converter::convertRadianToDegrees(double value_rad) const {
@@ -31,6 +32,10 @@ double Converter::convertRadianToDegrees(double value_rad) const {
 
 double Converter::convertDegreesToRadian(double value_deg) const {
     return value_deg * 180.0 / M_PI;
+}
+
+double Converter::convertNmToDegrees(double value_nm) const {
+	return value_nm * NM_IN_DEG;
 }
 
 double Converter::convertMillisecondToHour(double value_ms) const {

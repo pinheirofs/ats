@@ -1,114 +1,120 @@
 #include <cmath>
+#include <boost/units/pow.hpp>
 
 #include "streachcalculator.h"
 #include "converter.h"
 
-using std::atan2;
-using std::pow;
-using std::sqrt;
+using boost::units::pow;
+using boost::units::root;
+using boost::units::si::meters;
+using boost::units::si::meters_per_second;
+using boost::units::si::radians;
+using boost::units::si::seconds;
 
 namespace ats {
 namespace enviroment {
 
-StreachCalculator::StreachCalculator()
-        : initHeight_ft(0.0), initLatitude_degrees(0.0), initLongitude_degrees(0.0), initSpeed_kt(0.0),
-                endHeight_ft(0.0), endLatitude_degrees(0.0), endLongitude_degrees(0.0), endSpeed_kt(0.0) {
+StreachCalculator::StreachCalculator() :
+		initHeight(0.0 * meters), initLatitude(0.0 * meters), initLongitude(
+				0.0 * meters), initSpeed(0.0 * meters_per_second), endHeight(
+				0.0 * meters), endLatitude(0.0 * meters), endLongitude(
+				0.0 * meters), endSpeed(0.0 * meters_per_second) {
 }
 
 StreachCalculator::~StreachCalculator() {
 }
 
-long StreachCalculator::calculateTimeInterval_ms() const {
-    double deltaHeight_ft = endHeight_ft - initHeight_ft;
-    double deltaLatitude_degrees = endLatitude_degrees - initLatitude_degrees;
-    double deltaLongitude_degrees = endLongitude_degrees - initLongitude_degrees;
-    double deltaSpeed_kt = endSpeed_kt - initSpeed_kt;
+UnitTime StreachCalculator::calculateTimeInterval() const {
+	UnitLength deltaHeight = endHeight - initHeight;
+	UnitLength deltaLatitude = endLatitude - initLatitude;
+	UnitLength deltaLongitude = endLongitude - initLongitude;
+	UnitVelocity deltaSpeed = endSpeed - initSpeed;
 
-    Converter converter;
-    double deltaHeight_nm = converter.convertFtToNm(deltaHeight_ft);
-    double deltaLatitude_nm = converter.convertDegreesToNm(deltaLatitude_degrees);
-    double deltaLongitude_nm = converter.convertDegreesToNm(deltaLongitude_degrees);
+	UnitLength distance = root<2>(pow<2>(deltaHeight) + pow<2>(deltaLatitude)
+			+ pow<2>(deltaLongitude));
 
-    double temp = pow(deltaHeight_nm, 2.0) + pow(deltaLatitude_nm, 2.0) + pow(deltaLongitude_nm, 2.0);
-    double distance_nm = sqrt(static_cast<long double>(temp));
-
-    double time_ms = ((2.0 * distance_nm) / deltaSpeed_kt) * 3600000;
-    return static_cast<long>(time_ms);
+	UnitTime time = (2.0  * distance) / deltaSpeed;
+	return time;
 }
 
-void StreachCalculator::setEndHeight_ft(const double endHeight_ft) {
-    this->endHeight_ft = endHeight_ft;
+void StreachCalculator::setEndHeight(const UnitLength endHeight) {
+	this->endHeight = endHeight;
 }
 
-void StreachCalculator::setEndLatitude_degrees(const double endLatitude_degrees) {
-    this->endLatitude_degrees = endLatitude_degrees;
+void StreachCalculator::setEndLatitude(const UnitLength endLatitude) {
+	this->endLatitude = endLatitude;
 }
 
-void StreachCalculator::setEndLongitude_degrees(const double endLongitude_degrees) {
-    this->endLongitude_degrees = endLongitude_degrees;
+void StreachCalculator::setEndLongitude(const UnitLength endLongitude) {
+	this->endLongitude = endLongitude;
 }
 
-void StreachCalculator::setEndSpeed_kt(const double endSpeed_kt) {
-    this->endSpeed_kt = endSpeed_kt;
+void StreachCalculator::setEndSpeed(const UnitVelocity endSpeed) {
+	this->endSpeed = endSpeed;
 }
 
-void StreachCalculator::setInitHeight_ft(const double initHeightFt) {
-    this->initHeight_ft = initHeightFt;
+void StreachCalculator::setInitHeight(const UnitLength initHeightFt) {
+	this->initHeight = initHeightFt;
 }
 
-void StreachCalculator::setInitLatitude_degrees(const double initLatitude_degrees) {
-    this->initLatitude_degrees = initLatitude_degrees;
+void StreachCalculator::setInitLatitude(const UnitLength initLatitude) {
+	this->initLatitude = initLatitude;
 }
 
-void StreachCalculator::setInitLongitude_degrees(const double initLongitude_degrees) {
-    this->initLongitude_degrees = initLongitude_degrees;
+void StreachCalculator::setInitLongitude(const UnitLength initLongitude) {
+	this->initLongitude = initLongitude;
 }
 
-void StreachCalculator::setInitSpeed_kt(const double initSpeed_kt) {
-    this->initSpeed_kt = initSpeed_kt;
+void StreachCalculator::setInitSpeed(const UnitVelocity initSpeed) {
+	this->initSpeed = initSpeed;
 }
 
-double StreachCalculator::calculateHeightChangeRate_ft_ms() const {
-    return (endHeight_ft - initHeight_ft) / calculateTimeInterval_ms();
+UnitVelocity StreachCalculator::calculateHeightChangeRate() const {
+	return (endHeight - initHeight) / calculateTimeInterval();
 }
 
-double StreachCalculator::calculateSpeedChangeRate_kt_ms() const {
-    return (endSpeed_kt - initSpeed_kt) / calculateTimeInterval_ms();
+UnitAcceleration StreachCalculator::calculateSpeedChangeRate() const {
+	return (endSpeed - initSpeed) / calculateTimeInterval();
 }
 
-double StreachCalculator::calculateHeading_degrees() const {
-    double deltaLatitude = endLatitude_degrees - initLatitude_degrees;
-    double deltaLongitude = endLongitude_degrees - initLongitude_degrees;
+UnitAngle StreachCalculator::calculateHeading() const {
+	UnitLength deltaHeight = endHeight - initHeight;
+	UnitLength deltaLatitude = endLatitude - initLatitude;
+	UnitLength deltaLongitude = endLongitude - initLongitude;
 
-    if (deltaLatitude == 0.0 && deltaLongitude == 0.0) {
-        return 0.0;
-    }
+	UnitAngle angle(0.0 * radians);
+	if (deltaLatitude.value() <= 0.0 && deltaLatitude.value() >= 0.0) {
+		angle = M_PI * radians - angle;
+	} else if (deltaLatitude.value() <= 0.0 && deltaLatitude.value() <= 0.0) {
+		angle = M_PI * radians + angle;
+	} else if (deltaLatitude.value() >= 0.0 && deltaLatitude.value() <= 0.0) {
+		angle = M_PI * radians - angle;
+	}
 
-    double angle = atan2(deltaLatitude, deltaLongitude);
-    if (deltaLatitude <= 0.0 && deltaLatitude >= 0.0) {
-        angle = 360.0 - angle;
-    } else if (deltaLatitude <= 0.0 && deltaLatitude <= 0.0) {
-        angle = 180.0 + angle;
-    } else if (deltaLatitude >= 0.0 && deltaLatitude <= 0.0) {
-        angle = 180.0 - angle;
-    }
-
-    return angle;
+	return angle;
 }
 
-double StreachCalculator::getInitHeight_ft() const {
-	return initHeight_ft;
+UnitLength StreachCalculator::getInitHeight() const {
+	return initHeight;
 }
 
-double StreachCalculator::getInitSpeed_kt() const {
-	return initSpeed_kt;
+UnitVelocity StreachCalculator::getInitSpeed() const {
+	return initSpeed;
+}
+
+UnitLength StreachCalculator::getInitLatitude() const {
+	return initLatitude;
+}
+
+UnitLength StreachCalculator::getInitLongitude() const {
+	return initLongitude;
 }
 
 void StreachCalculator::advance() {
-    initHeight_ft = endHeight_ft;
-    initLatitude_degrees = endLatitude_degrees;
-    initLongitude_degrees = endLongitude_degrees;
-    initSpeed_kt = endSpeed_kt;
+	initHeight = endHeight;
+	initLatitude = endLatitude;
+	initLongitude = endLongitude;
+	initSpeed = endSpeed;
 }
 
 } /* namespace enviroment */

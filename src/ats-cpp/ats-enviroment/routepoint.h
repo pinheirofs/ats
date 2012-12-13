@@ -1,6 +1,8 @@
 #ifndef ROUTEPOINT_H_
 #define ROUTEPOINT_H_
 
+#include "typedefs.h"
+
 namespace ats {
 namespace enviroment {
 
@@ -12,25 +14,29 @@ class RoutePoint {
         RoutePoint();
         virtual ~RoutePoint();
 
-        double getSpeed_kt();
-        void setSpeed_kt(double speed_mn);
-        double getHeigth_ft();
-        void setHeigth_ft(double heigth_ft);
-        double getLatitude_degrees();
-        void setLatitude_degrees(double latitude_degrees);
-        double getLongitude_degrees();
-        void setLongitude_degrees(double longitude_degrees);
+        UnitVelocity getSpeed();
+        void setSpeed(UnitVelocity speed);
+        UnitLength getHeigth();
+        void setHeigth(UnitLength heigth);
+        UnitLength getLatitude();
+        void setLatitude(UnitLength latitude);
+        UnitLength getLongitude();
+        void setLongitude(UnitLength longitude);
 
-        static const double DEFALUT_SPEED_KT;
-        static const double DEFALUT_HEIGTH_FT;
-        static const double DEFALUT_LATITUDE_DEGREES;
-        static const double DEFALUT_LONGITUDE_DEGREES;
+        static const UnitVelocity DEFALUT_SPEED;
+        static const UnitLength DEFALUT_HEIGTH;
+        static const UnitLength DEFALUT_LATITUDE;
+        static const UnitLength DEFALUT_LONGITUDE;
 
     private:
-        double speed_kt;
-        double heigth_ft;
-        double latitude_degrees;
-        double longitude_degrees;
+        UnitVelocity speed;
+        UnitLength heigth;
+
+        // a latitude e a distancia em metros na horizontal a partir da linha do equador.
+        UnitLength latitude;
+
+        // a latitude e a distancia em metros na horizontal a partir da linha do meridiano de Greenwich.
+        UnitLength longitude;
 };
 
 } /* namespace enviroment */

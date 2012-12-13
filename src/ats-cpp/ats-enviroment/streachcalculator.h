@@ -1,6 +1,8 @@
 #ifndef TIMECALCULATOR_H_
 #define TIMECALCULATOR_H_
 
+#include "typedefs.h"
+
 namespace ats {
 namespace enviroment {
 
@@ -12,32 +14,34 @@ class StreachCalculator {
         StreachCalculator();
         virtual ~StreachCalculator();
 
-        void setEndHeight_ft(const double endHeight_ft);
-        void setEndLatitude_degrees(const double endLatitude_degrees);
-        void setEndLongitude_degrees(const double endLongitude_degrees);
-        void setEndSpeed_kt(const double endSpeed_kt);
-        double getInitHeight_ft() const;
-        void setInitHeight_ft(const double initHeight_ft);
-        void setInitLatitude_degrees(const double initLatitude_degrees);
-        void setInitLongitude_degrees(const double initLongitude_degrees);
-        double getInitSpeed_kt() const;
-        void setInitSpeed_kt(const double initSpeed_kt);
+        void setEndHeight(const UnitLength endHeight);
+        void setEndLatitude(const UnitLength endLatitude);
+        void setEndLongitude(const UnitLength endLongitude);
+        void setEndSpeed(const UnitVelocity endSpeed);
+        UnitLength getInitHeight() const;
+        void setInitHeight(const UnitLength initHeight);
+        UnitLength getInitLatitude() const;
+        void setInitLatitude(const UnitLength initLatitude);
+        UnitLength getInitLongitude() const;
+        void setInitLongitude(const UnitLength initLongitude);
+        UnitVelocity getInitSpeed() const;
+        void setInitSpeed(const UnitVelocity initSpeed);
 
-        long calculateTimeInterval_ms() const;
-        double calculateHeightChangeRate_ft_ms() const;
-        double calculateSpeedChangeRate_kt_ms() const;
-        double calculateHeading_degrees() const;
+        UnitTime calculateTimeInterval() const;
+        UnitVelocity calculateHeightChangeRate() const;
+        UnitAcceleration calculateSpeedChangeRate() const;
+        UnitAngle calculateHeading() const;
         void advance();
 
     private:
-        double initHeight_ft;
-        double initLatitude_degrees;
-        double initLongitude_degrees;
-        double initSpeed_kt;
-        double endHeight_ft;
-        double endLatitude_degrees;
-        double endLongitude_degrees;
-        double endSpeed_kt;
+        UnitLength initHeight;
+        UnitLength initLatitude;
+        UnitLength initLongitude;
+        UnitVelocity initSpeed;
+        UnitLength endHeight;
+        UnitLength endLatitude;
+        UnitLength endLongitude;
+        UnitVelocity endSpeed;
 };
 
 } /* namespace enviroment */

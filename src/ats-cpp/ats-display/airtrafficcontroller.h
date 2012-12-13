@@ -12,9 +12,6 @@
 namespace ats {
 namespace display {
 
-/*
- *
- */
 class AirTrafficController: public QObject {
     Q_OBJECT
 
@@ -26,7 +23,7 @@ class AirTrafficController: public QObject {
         void addRoutePoint(int index);
         void removeRoutePoint(int index);
         void setTrafficName(const QString &);
-        void setTrafficLatitude(int indexRoutePoint, double latitude);
+        void setTrafficLatitude(int indexRoutePoint, double latitude_deg);
         void setTrafficLongitude(int indexRoutePoint, double longitude);
         void setTrafficHeight(int indexRoutePoint, double height);
         void setTrafficSpeed(int indexRoutePoint, double speed);
