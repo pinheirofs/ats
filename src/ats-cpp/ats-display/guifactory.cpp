@@ -29,7 +29,7 @@ void GuiFactory::showAtsMainWindow() {
     mainWindow = new AtsMainWindow();
 
     connect(mainWindow, SIGNAL(exitApplication()), mainWindow, SLOT(close()));
-    connect(mainWindow, SIGNAL(showAddAirtrafficDialog()), controller, SLOT(showAirTrafficManagementWindow()));
+    connect(mainWindow, SIGNAL(showAddAirtrafficDialog()), this, SLOT(showAirTrafficManagementWindow()));
     connect(mainWindow, SIGNAL(prepareSimulation()), controller, SLOT(prepareSimulation()));
     connect(mainWindow, SIGNAL(startSimulation()), controller, SLOT(startSimulation()));
     connect(mainWindow, SIGNAL(isRunningSimulation()), controller, SLOT(isRunningSimulation()));

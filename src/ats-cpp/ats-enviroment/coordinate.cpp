@@ -14,6 +14,11 @@ Coordinate::Coordinate() :
 		latitude(0.0 * meters), longitude(0.0 * meters), height(0.0 * meters) {
 }
 
+Coordinate::Coordinate(UnitLength latitude, UnitLength longitude, UnitLength height) :
+        latitude(latitude), longitude(longitude), height(height) {
+
+}
+
 Coordinate::~Coordinate() {
 }
 

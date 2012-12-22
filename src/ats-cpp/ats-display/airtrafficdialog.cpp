@@ -72,7 +72,7 @@ QLayout *AirTrafficDialog::createTrafficDetailLayout() {
     QStringList columnNames;
     columnNames.append(trUtf8("Latitude (°)"));
     columnNames.append(trUtf8("Longitude (°)"));
-    columnNames.append(tr("Speed (nm)"));
+    columnNames.append(tr("Speed (kt)"));
     columnNames.append(tr("Height (ft)"));
 
     QHeaderView *headerView = new QHeaderView(Qt::Horizontal);

@@ -10,7 +10,7 @@ namespace ats {
 namespace display {
 
 class GuiFactory: public QObject {
-    Q_OBJECT
+    Q_OBJECT;
 
     public:
         virtual ~GuiFactory();

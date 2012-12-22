@@ -40,36 +40,6 @@ bool TrafficValidator::isValid() const {
             return false;
         }
 
-        for (int i = 0; i < countRoutePoints; i++) {
-            UnitLength heigth = traffic.getRoutePointHeight(i);
-            if (heigth == RoutePoint::DEFALUT_HEIGTH) {
-                return false;
-            } else if (heigth < HEIGTH_MIN || heigth > HEIGTH_MAX) {
-                return false;
-            }
-
-            UnitLength latitude = traffic.getRoutePointLatitude(i);
-            if (latitude == RoutePoint::DEFALUT_LATITUDE) {
-                return false;
-            } else if (latitude < LATITUDE_MIN || latitude > LATITUDE_MAX) {
-                return false;
-            }
-
-            UnitLength longitude_degrees = traffic.getRoutePointLongitude(i);
-            if (longitude_degrees == RoutePoint::DEFALUT_LONGITUDE) {
-                return false;
-            } else if (longitude_degrees < LONGITUDE_MIN || longitude_degrees > LONGITUDE_MAX) {
-                return false;
-            }
-
-            UnitVelocity speed = traffic.getRoutePointSpeed(i);
-            if (speed == RoutePoint::DEFALUT_SPEED) {
-                return false;
-            } else if (speed < SPEED_MIN || speed > SPEED_MAX) {
-                return false;
-            }
-        }
-
         return true;
 }
 

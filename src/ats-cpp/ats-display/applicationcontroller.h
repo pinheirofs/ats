@@ -13,15 +13,16 @@ namespace display {
  *
  */
 class ApplicationController: public QObject {
+    Q_OBJECT;
+
     public:
         ApplicationController(Application *Application);
         virtual ~ApplicationController();
 
-
     public slots:
-        bool isRunningSimulation();
         void prepareSimulation();
         void startSimulation();
+        bool isRunningSimulation();
 
     private:
         Application *application;

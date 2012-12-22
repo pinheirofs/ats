@@ -21,10 +21,6 @@ ApplicationController::~ApplicationController() {
     // sem implemetacao
 }
 
-bool ApplicationController::isRunningSimulation() {
-    return true;
-}
-
 void ApplicationController::prepareSimulation() {
     simulation.clearAircrafts();
 
@@ -42,6 +38,10 @@ void ApplicationController::prepareSimulation() {
 
 void ApplicationController::startSimulation() {
     simulation.start();
+}
+
+bool ApplicationController::isRunningSimulation() {
+    return true;
 }
 
 } /* namespace display */

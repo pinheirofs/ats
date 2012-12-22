@@ -3,6 +3,7 @@ QT -= gui
 TARGET = ats-enviroment
 DEFINES += ATSENVIROMENT_LIBRARY
 HEADERS += typedefs.h \
+    typedefs.h \
     coordinate.h \
     streachcalculator.h \
     stretch.h \
