@@ -67,6 +67,10 @@ void Simulation::start() {
     }
 }
 
+std::vector<Aircraft> Simulation::getAllAircrafts() {
+    return aircrafts;
+}
+
 UnitTime Simulation::getTime() {
     struct timeb instant;
     ftime(&instant);

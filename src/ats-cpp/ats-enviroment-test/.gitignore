@@ -1,0 +1,6 @@
+/debug
+/release
+/ats-enviroment-test
+/Makefile
+/Makefile.Debug
+/Makefile.Release

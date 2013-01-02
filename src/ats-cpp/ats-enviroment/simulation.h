@@ -10,9 +10,6 @@
 namespace ats {
 namespace enviroment {
 
-/*
- *
- */
 class Simulation {
     public:
         Simulation();
@@ -20,6 +17,7 @@ class Simulation {
 
         void clearAircrafts();
         void addAircraft(Aircraft &aircraft);
+        std::vector<Aircraft> getAllAircrafts();
         void setSleepTime(UnitTime sleepTime);
         void addSimulationListener(SimulationListener simulationListener);
         void start();
