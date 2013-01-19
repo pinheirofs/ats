@@ -14,8 +14,11 @@ public:
     virtual ~SimulationTest();
 
 private slots:
-    void addAircrafts();
-
+    void createEmptySimulationTest();
+    void addAircraftsTest();
+    void clearAircraftsTest();
+    void sleepTimeTest();
+    void addSimulationListenersTest();
 };
 
 #endif /* SIMULATIONTEST_H_ */

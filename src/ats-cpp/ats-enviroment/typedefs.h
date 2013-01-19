@@ -17,8 +17,6 @@ typedef boost::units::quantity<boost::units::si::time> UnitTime;
 typedef boost::units::quantity<boost::units::si::acceleration> UnitAcceleration;
 typedef boost::units::quantity<boost::units::si::plane_angle> UnitAngle;
 
-
-
 } /* namespace enviroment */
 } /* namespace ats */
 

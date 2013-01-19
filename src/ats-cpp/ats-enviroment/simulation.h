@@ -17,9 +17,11 @@ class Simulation {
 
         void clearAircrafts();
         void addAircraft(Aircraft &aircraft);
-        std::vector<Aircraft> getAllAircrafts();
+        int quantityAircrafts();
         void setSleepTime(UnitTime sleepTime);
+        UnitTime getSleepTime();
         void addSimulationListener(SimulationListener simulationListener);
+        int quantitySimulationListeners();
         void start();
 
     private:

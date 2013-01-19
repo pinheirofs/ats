@@ -25,8 +25,16 @@ void Simulation::setSleepTime(UnitTime sleepTime) {
     this->sleepTime = sleepTime;
 }
 
+UnitTime Simulation::getSleepTime() {
+    return sleepTime;
+}
+
 void Simulation::addSimulationListener(SimulationListener simulationListener) {
     simulationListeners.push_back(simulationListener);
+}
+
+int Simulation::quantitySimulationListeners() {
+    return simulationListeners.size();
 }
 
 void Simulation::clearAircrafts() {
@@ -67,8 +75,8 @@ void Simulation::start() {
     }
 }
 
-std::vector<Aircraft> Simulation::getAllAircrafts() {
-    return aircrafts;
+int Simulation::quantityAircrafts() {
+    return aircrafts.size();
 }
 
 UnitTime Simulation::getTime() {
